@@ -78,3 +78,19 @@ print('Frase com sinonimos filtrados: ' + prep.get_synonym("Eu sou o primeiro te
 # Teste método estático
 print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.")}\n')
 ```
+
+## Out:
+```
+Frase 1: ['Eu', 'sou', 'o', 'primeiro', 'texto', 'de', 'Antonio', 'Pires']
+Frase 2: ['Eu', 'sou', 'o', 'segundo', 'texto', 'de', 'antonio', 'pires']
+Preprocessamento: False
+
+Cálculo de Similaridade
+Jaccard: 45.4545
+Cosseno: 62.5
+
+Frase sem pontuações: eu sou o primeiro texto de antonio pires incluindo leis resoluções normas legais
+Frase com sinonimos filtrados: eu sou o primeiro texto de antonio pires, incluindo lei, lei, lei legais.
+
+Utilizando text_para_vetor estaticamente: ['Eu', 'sou', 'o', 'primeiro', 'texto', 'de', 'antonio', 'pires,', 'incluindo', 'leis,', 'resoluções,', 'normas', 'legais.']
+```
