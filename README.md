@@ -1,6 +1,6 @@
 # Berna TJGO DIACDE lib
 
-Biblioteca da Berna desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Analise de Dados e Estatística.
+Biblioteca da Berna desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística.
 
 ## Classe Berna
 A classe é definida com duas strings obrigatórias e um operador booleano opcional indicando a utilização do pré-processamento declarado falso de forma padrão.
