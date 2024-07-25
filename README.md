@@ -52,13 +52,15 @@ Prep.get_synonym('*Texto de Exemplo*')
 # Exemplos Práticos:
 
 ```python
-import berna_tjgo_diacde_lib
+# Import da classe Berna
+from berna_tjgo_diacde_lib import Berna
+# Import do módulo de Pré-processamento
 from berna_tjgo_diacde_lib import Prep as prep
 
 # Instância
 berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', False)
 
-# Teste init
+# Teste valores de entrada
 print(f'\nFrase 1: {berna.vec_terms1}')
 print(f'Frase 2: {berna.vec_terms2}')
 print(f'Preprocessamento: {berna.pre_process}')
