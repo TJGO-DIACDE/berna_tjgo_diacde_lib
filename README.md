@@ -5,7 +5,7 @@ Biblioteca da Berna desenvolvida pelo TJGO, Diretoria de Inteligência Artificia
 ## Classe Berna
 A classe é definida com duas strings obrigatórias e um operador booleano opcional indicando a utilização do pré-processamento declarado falso de forma padrão.
 
-Para a instalação, utilize o comando
+Para a instalação, utilize o comando:
 ```bash
 pip install berna-tjgo-diacde-lib
 ```
