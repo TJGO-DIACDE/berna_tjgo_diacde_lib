@@ -35,7 +35,7 @@ calc1.get_similaridade_cosseno()        # retornaria 66.6667
 * Transformação de texto para vetor: 
 é usado pela própria classe ao instânciar um objeto, porém tambem pode ser utilizado de maneira estática. Ele recebe como parâmetros, um valor vazio, o texto a ser separado e um valor booleano opcional de acordo com a necessidade de pré-processamento. utilize a seguinte estrutura:
 ```python
-brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)            # retornaria ['texto', 'exemplo']
+brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)    # retornaria ['texto', 'exemplo']
 ```
 
 ## Pré-Processamento
@@ -49,20 +49,20 @@ from berna_tjgo_diacde_lib import Prep
 * clear: 
 remove todos os caracteres que não sejam alfanuméricos ou espaços. Também remove algumas palavras relacionadas a html e css, como 'span', 'style', '70px', entre outras. Utilize da seguinte forma:
 ```python
-Prep.clear('*Texto de Exemplo*')                                        # Retornaria 'texto de exemplo'
+Prep.clear('*Texto de Exemplo*')                                # Retornaria 'texto de exemplo'
 ```
 
 * get_synonym: 
 substitui certas palavras do meio jurídico por suas contrapartes.
 Por exemplo: 'norma', 'decreto' e 'resolucao' são substituidas pela palavra 'lei'. Utilize da seguinte forma
 ```python
-Prep.get_synonym('*Texto de Exemplo contendo leis e normas*')           # Retornaria '*texto de exemplo contendo lei e lei*'
+Prep.get_synonym('*Texto de Exemplo contendo leis e normas*')   # Retornaria '*texto de exemplo contendo lei e lei*'
 ```
 
 * get_synonym_by_dict:
 semelhante ao método anterior, substitúi certas palavras do meio jurídico por termos padronizados, mas dessa vez utilizando outro método de substituição e um grande dicionário que inclui mais termos e termos em latin. Utilize da seguinte forma:
 ```python
-Prep.get_synonym_by_dict('*Texto de Exemplo contendo leis e normas*')   # Retornaria '*texto de exemplo contendo leis e Leis*'
+Prep.get_synonym_by_dict('*Texto de Exemplo contendo leis e normas*') # Retornaria '*texto de exemplo contendo leis e Leis*'
 ```
 
 # Exemplos Práticos:
