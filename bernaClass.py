@@ -1,16 +1,11 @@
-from .preProcessamento import clear, get_synonym
+from .preProcessamento import clear, get_synonym, get_synonym_by_dict         # Retire o ponto para rodar localmente
 
 class Berna:
     def __init__(self, doc1: str, doc2: str, pre_process: bool = False) -> None:
         self.pre_process = pre_process
 
-        if pre_process:
-           self.vec_terms1 = self.texto_para_vetor(get_synonym( ''.join(clear(doc1)) ))
-           self.vec_terms2 = self.texto_para_vetor(get_synonym( ''.join(clear(doc2)) ))
-
-        else:
-           self.vec_terms1 = self.texto_para_vetor(doc1)
-           self.vec_terms2 = self.texto_para_vetor(doc2)
+        self.vec_terms1 = self.texto_para_vetor(doc1)
+        self.vec_terms2 = self.texto_para_vetor(doc2)
 
         self.calcula_similaridade_cosseno()
         self.calcula_similaridade_jaccard()
@@ -53,22 +48,25 @@ class Berna:
             self.similaridade_cosseno = None
         else:
             cosine = c / (sum(l1)*sum(l2))**0.5
-            self.similaridade_cosseno =  round(cosine*100,4)
+            self.similaridade_cosseno =  round(cosine*100, 4)
 
     def texto_para_vetor(self, txt: str, pre_process: bool = False) -> list:
         try:
             pre_process = self.pre_process
         except:
             pass
+ 
+        if pre_process:
+            txt = get_synonym( clear(txt) )
 
-        vetor = [token for token in txt.split() if not pre_process or len(token) > 2]
+        vetor = [token for token in txt.split()]
 
         return ' '.join(vetor).split()
     
 
 def teste() -> None:
     # Instância
-    berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', False)
+    berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
 
     # Teste init
     print(f'\nFrase 1: {berna.vec_terms1}')
@@ -80,15 +78,16 @@ def teste() -> None:
     print(f'Jaccard: {berna.get_similaridade_jaccard()}')
     print(f'Cosseno: {berna.get_similaridade_cosseno()}')
     # Resultados esperados:
-    # se Preprocess True: 66.6_ e 80.0
-    # se Preprocess False: 45.45_ e 62.5
+    # se Preprocess True: 66.6667 e 80.0
+    # se Preprocess False: 45.4545 e 62.5
 
     # Teste métodos módulo Pré Processamento
     print('\nFrase sem pontuações: ' + clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
     print('Frase com sinonimos filtrados: ' + get_synonym("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
+    print('Frase com sinonimos filtrados por dicionário: ' + get_synonym_by_dict("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
 
     # Teste método estático
-    print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.")}\n')
+    print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')
     
 if __name__ == '__main__':
     teste()
