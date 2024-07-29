@@ -1,7 +1,7 @@
 # Berna TJGO DIACDE lib
 
-Biblioteca da Berna desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Analise de Dados e Estatística. <br>
-Pacote referente a classe Berna de calculo de similaridade entre textos e um Módulo de Pré-processamento de texto.
+Biblioteca da Berna desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. <br>
+Pacote referente a classe Berna para cálculo de similaridade entre textos e um Módulo de Pré-processamento de texto.
 
 Para a instalação, utilize o comando:
 ```bash
