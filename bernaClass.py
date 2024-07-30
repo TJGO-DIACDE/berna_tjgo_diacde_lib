@@ -1,4 +1,4 @@
-import preProcessamento as prep         # Retire o ponto para rodar localmente
+from . import preProcessamento as prep         # Retire o ponto para rodar localmente
 
 class Berna:
     def __init__(self, doc1: str, doc2: str, pre_process: bool = False) -> None:
