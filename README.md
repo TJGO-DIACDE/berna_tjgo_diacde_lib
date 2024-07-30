@@ -154,7 +154,7 @@ Sob as seguintes condições:
 Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](./LICENSE) ou visite [CC BY-NC-SA 4.0 Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 
 # Créditos
-A biblioteca Berna TJGO DIACDE foi desenvolvida pela Diretoria de Inteligência Artificial, Ciência de Dados e Estatística do TJGO.
+A biblioteca Berna TJGO DIACDE foi desenvolvida pelo Tribunal de Justiça do Estado de Goiás, pela [Diretoria de Inteligência Artificial, Ciência de Dados e Estatística](https://github.com/TJGO-DIACDE) - <TJGOdiacde@tjgo.jus.br>.
 
 ## Desenvolvedor:
-### Milton Ávila - https://github.com/Milton-Avila
+[Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com>.
