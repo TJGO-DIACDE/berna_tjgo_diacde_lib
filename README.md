@@ -139,8 +139,8 @@ Utilizando text_para_vetor estaticamente: ['eu', 'ser', 'o', 'primeiro', 'texto'
 ```
 
 # Licença
-
 Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). 
+Domingo, 21 de Julho de 2024, às 09:54:07
 
 Você pode:
 - Compartilhar — copiar e redistribuir o material em qualquer formato ou mídia
@@ -156,5 +156,7 @@ Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](.
 # Créditos
 A biblioteca Berna TJGO DIACDE foi desenvolvida pelo Tribunal de Justiça do Estado de Goiás, pela [Diretoria de Inteligência Artificial, Ciência de Dados e Estatística](https://github.com/TJGO-DIACDE) - <TJGOdiacde@tjgo.jus.br>.
 
-## Desenvolvedor:
+## Desenvolvedores:
+[Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br>
 [Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com>.
+[Wesley]()
