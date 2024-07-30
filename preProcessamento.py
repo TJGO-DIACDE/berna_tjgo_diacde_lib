@@ -1,3 +1,9 @@
+''' Licença:
+Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Você pode compartilhar, adaptar e construir sobre o material, desde que atribua crédito apropriado, não use o material para fins comerciais e distribua suas contribuições sob a mesma licença.
+
+Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
+'''
+
 # Pandas
 import pandas as pd
 
@@ -125,24 +131,23 @@ def _read_binary() -> object:
 
 
 if __name__=='__main__':
-    # # Teste func 1
-    # print(clear('Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais. style@page', no_css=True, replace_synonym_by_dict=True))
+    # Teste func 1
+    print(clear('Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais. style@page', no_css=True, replace_synonym_by_dict=True))
 
-    # # Teste func 2
-    # print(lemmatize_text('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
+    # Teste func 2
+    print(lemmatize_text('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
 
-    # # Teste func 3
-    # print(remove_ponctuation('Esse é um teste! e não devem haver pontuações nessa frase...'))
+    # Teste func 3
+    print(remove_ponctuation('Esse é um teste! e não devem haver pontuações nessa frase...'))
     
-    # # Teste func 4
-    # print(remove_css('Essa é uma frase sem palavras de css, style@page px'))
+    # Teste func 4
+    print(remove_css('Essa é uma frase sem palavras de css, style@page px'))
     
-    # # Teste func 5
-    # print(remove_stopwords('Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção.'))
+    # Teste func 5
+    print(remove_stopwords('Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção.'))
 
-    # # Teste func 6 
-    # print(get_synonym('Método de sinonimos: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+    # Teste func 6 
+    print(get_synonym('Método de sinonimos: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
 
-    # # Teste func 7
-    # print(get_synonym_by_dict('Método de sinonimos por dicionário: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
-    print(get_synonym_by_dict('*Texto de Exemplo contendo leis e normas*'))
+    # Teste func 7
+    print(get_synonym_by_dict('Método de sinonimos por dicionário: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))

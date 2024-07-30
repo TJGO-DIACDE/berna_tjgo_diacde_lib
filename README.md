@@ -139,10 +139,22 @@ Utilizando text_para_vetor estaticamente: ['eu', 'ser', 'o', 'primeiro', 'texto'
 ```
 
 # Licença
-https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). 
+
+Você pode:
+- Compartilhar — copiar e redistribuir o material em qualquer formato ou mídia
+- Adaptar — remixar, transformar e construir sobre o material
+
+Sob as seguintes condições:
+- Atribuição — Você deve dar o crédito apropriado, prover um link para a licença, e indicar se mudanças foram feitas. Você pode fazê-lo de qualquer forma razoável, mas não de forma que sugira que o licenciador endossa você ou seu uso.
+- Não Comercial — Você não pode usar o material para fins comerciais.
+- Compartilhar Igual — Se você remixar, transformar ou criar a partir do material, deve distribuir suas contribuições sob a mesma licença que o original.
+
+Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](./LICENSE) ou visite [CC BY-NC-SA 4.0 Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 
 # Créditos
 A biblioteca Berna TJGO DIACDE foi desenvolvida pela Diretoria de Inteligência Artificial, Ciência de Dados e Estatística do TJGO.
 
-### Desenvolvedor:
-Milton Ávila - https://github.com/Milton-Avila
+## Desenvolvedor:
+### Milton Ávila - https://github.com/Milton-Avila
