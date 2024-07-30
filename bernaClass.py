@@ -1,4 +1,4 @@
-from .preProcessamento import clear, get_synonym, get_synonym_by_dict         # Retire o ponto para rodar localmente
+import preProcessamento as prep         # Retire o ponto para rodar localmente
 
 class Berna:
     def __init__(self, doc1: str, doc2: str, pre_process: bool = False) -> None:
@@ -55,14 +55,14 @@ class Berna:
             pre_process = self.pre_process
         except:
             pass
- 
+
         if pre_process:
-            txt = get_synonym( clear(txt) )
+            txt = prep.clear(txt, lematize=True, no_ponctuation=True, replace_synonym=True)
 
         vetor = [token for token in txt.split()]
 
         return ' '.join(vetor).split()
-    
+
 
 def teste() -> None:
     # Instância
@@ -78,13 +78,13 @@ def teste() -> None:
     print(f'Jaccard: {berna.get_similaridade_jaccard()}')
     print(f'Cosseno: {berna.get_similaridade_cosseno()}')
     # Resultados esperados:
-    # se Preprocess True: 66.6667 e 80.0
+    # se Preprocess True: 77.7778 e 87.5
     # se Preprocess False: 45.4545 e 62.5
 
     # Teste métodos módulo Pré Processamento
-    print('\nFrase sem pontuações: ' + clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-    print('Frase com sinonimos filtrados: ' + get_synonym("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-    print('Frase com sinonimos filtrados por dicionário: ' + get_synonym_by_dict("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
+    print('\nFrase sem pontuações: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
+    print('Frase com sinonimos filtrados: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", replace_synonym=True))
+    print('Frase com sinonimos filtrados por dicionário: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", replace_synonym_by_dict=True))
 
     # Teste método estático
     print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')

@@ -1,16 +1,75 @@
+# Pandas
 import pandas as pd
+
+# Setup tools
 import pkg_resources
 
-def clear(txt: str) -> str:
-    out_txt = txt.lower().replace('style@page','').replace('style','').replace('70px','').replace('\"span ','').replace('p&ampnbsp','').replace(' p ','').replace('\"lineheight"','').replace('textindent','').replace('justify','').replace('150%','').replace(' /p ','').replace('100px','').replace('\"fontsize','').replace('marginleft','').replace('70px','').replace('&ampnbsp','').replace('\"fontfamily','').replace('80px','').replace('30px','').replace('100%','').replace('marginright','').replace(' margin ','').replace('\"textalign','').replace('\"fontfamily','').replace('','').replace(' times ','').replace(' br ','').replace(' span ','').replace('lineheight','').replace('fontsize','').replace('fontfamily','').replace('textalign','').replace(' p ','').replace('2016p','').replace('3cm','').replace('4cm','').replace('p&ampnbsp','').replace(' new ','').replace('romanspan','').replace('&ampnbsp','')
-    out_txt = ''.join([l for l in out_txt if l.isalnum() or l==' '])
-    out_txt = ' '.join([w for w in out_txt.split() if len(w) > 2])
+# NLTK
+import nltk
+import spacy
+from nltk.corpus import stopwords
 
-    return out_txt
+# NLTK
+nltk.download('stopwords')
+stop_words = set(stopwords.words('portuguese'))
+nlp = spacy.load('pt_core_news_sm')
+
+def clear(
+    txt: str,
+    lematize: bool = False,
+    no_ponctuation: bool = False,
+    no_css: bool = False,
+    no_stopwords: bool = False,
+    replace_synonym: bool = False,
+    replace_synonym_by_dict: bool = False
+) -> str:
+    
+    txt = txt.lower()
+    
+    if no_css:
+        txt = remove_css(txt)
+
+    if no_ponctuation:
+        txt = remove_ponctuation(txt)
+
+    if replace_synonym:
+        txt = get_synonym(txt)
+
+    elif replace_synonym_by_dict:
+        txt = get_synonym_by_dict(txt)
+
+    if lematize:
+        txt = lemmatize_text(txt)
+
+    if no_stopwords:
+        txt = remove_stopwords(txt)
+
+    return txt
+
+def lemmatize_text(txt: str) -> str:
+    doc = nlp(txt)
+    lemmatized_text = ' '.join([token.lemma_.lower() for token in doc])
+
+    return lemmatized_text
+
+def remove_ponctuation(txt: str) -> str:
+    txt = ''.join([l for l in txt if l.isalnum() or l==' '])
+
+    return txt
+
+def remove_css(txt: str) -> str:
+    txt = txt.replace('style@page','').replace('style','').replace('px','').replace('\"span ','').replace('p&ampnbsp','').replace(' p ','').replace('\"lineheight"','').replace('textindent','').replace('justify','').replace('150%','').replace(' /p ','').replace('100px','').replace('\"fontsize','').replace('marginleft','').replace('70px','').replace('&ampnbsp','').replace('\"fontfamily','').replace('80px','').replace('30px','').replace('100%','').replace('marginright','').replace(' margin ','').replace('\"textalign','').replace('\"fontfamily','').replace('','').replace(' times ','').replace(' br ','').replace(' span ','').replace('lineheight','').replace('fontsize','').replace('fontfamily','').replace('textalign','').replace(' p ','').replace('2016p','').replace('3cm','').replace('4cm','').replace('p&ampnbsp','').replace(' new ','').replace('romanspan','').replace('&ampnbsp','')
+
+    return txt
+
+def remove_stopwords(txt: str) -> str:
+    tokens = txt.split()
+    tokens = [word for word in tokens if word not in stop_words]
+
+    return ' '.join(tokens)
 
 def get_synonym(txt: str) -> str:
-    txt = txt.lower()
-
+    
     # synonym of law
     txt = txt.replace('leis','lei')
     txt = txt.replace('complementares','complementar')
@@ -46,7 +105,6 @@ def get_synonym(txt: str) -> str:
 
 def get_synonym_by_dict(txt: str) -> str:
     table_dict = _read_binary()
-    txt = txt.lower()
 
     for _, row in table_dict.iterrows():
 
@@ -54,10 +112,10 @@ def get_synonym_by_dict(txt: str) -> str:
             token = token.lower()
 
             if token in txt:
-                txt = txt.replace(token, row['PALAVRA'].strip(', '))
+                txt = txt.replace(token, row['PALAVRA'].strip(', ').lower())
 
     return txt
-            
+
 
 def _read_binary() -> object:
     file_local = pkg_resources.resource_filename(__name__, 'data/data.pkl')
@@ -67,11 +125,24 @@ def _read_binary() -> object:
 
 
 if __name__=='__main__':
-    # Teste func 1
-    print(clear('Esse é um teste! e não devem haver pontuações nessa frase... :# style@page'))
+    # # Teste func 1
+    # print(clear('Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais. style@page', no_css=True, replace_synonym_by_dict=True))
 
-    # Teste func 2
-    print(get_synonym('Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+    # # Teste func 2
+    # print(lemmatize_text('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
 
-    # Teste func 3
-    print(get_synonym_by_dict('Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+    # # Teste func 3
+    # print(remove_ponctuation('Esse é um teste! e não devem haver pontuações nessa frase...'))
+    
+    # # Teste func 4
+    # print(remove_css('Essa é uma frase sem palavras de css, style@page px'))
+    
+    # # Teste func 5
+    # print(remove_stopwords('Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção.'))
+
+    # # Teste func 6 
+    # print(get_synonym('Método de sinonimos: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+
+    # # Teste func 7
+    # print(get_synonym_by_dict('Método de sinonimos por dicionário: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+    print(get_synonym_by_dict('*Texto de Exemplo contendo leis e normas*'))
