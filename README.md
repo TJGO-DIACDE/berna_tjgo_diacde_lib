@@ -1,9 +1,7 @@
 # Berna TJGO DIACDE Lib
-
 Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui a classe Berna para cálculo de similaridade entre textos e um módulo de pré-processamento de texto.
 
 ## Instalação
-
 Para instalar a biblioteca, use o comando abaixo (ainda não publicada):
 ```bash
 pip install berna-tjgo-diacde-lib
@@ -25,19 +23,19 @@ calc1 = brn.Berna('Texto de exemplo 1', 'Texto de exemplo 2', True)
 ### Similaridade Jaccard: 
 Obtém o coeficiente de similaridade Jaccard entre as duas strings de entrada:
 ```python
-similaridade_jaccard = calc1.get_similaridade_jaccard()  # Retorno: 50.0
+similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 75.0
 ```
 
 ### Similaridade por Cosseno: 
 Obtém o valor de similaridade por cosseno entre as duas strings de entrada:
 ```python
-similaridade_cosseno = calc1.get_similaridade_cosseno()  # Retorno: 66.6667
+similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 60.0
 ```
 
 ### Transformação de texto para vetor: 
 Método estático para converter um texto em vetor. Pode ser usado diretamente ou pela instância da classe:
 ```python
-vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)  # Retorno: ['texto', 'exemplo']
+vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)     # Retorno: ['texto', 'exemplo']
 ```
 
 ## Módulo de Pré-Processamento
@@ -54,12 +52,12 @@ Método principal do módulo de pré-processamento que engloba e executa todas a
 ```python
 def clear(
     txt: str,
-    no_punctuation: bool = False,  # Remove caracteres não-alfanuméricos
-    no_css: bool = False,          # Remove palavras relacionadas a HTML e CSS
-    no_stopwords: bool = False,    # Remove stopwords
-    lemmatize: bool = False,       # Aplica lematização à string
-    replace_synonym: bool = False, # Aplica o método get_synonym
-    replace_synonym_by_dict: bool = False # Aplica o método get_synonym_by_dict
+    no_punctuation: bool = False,           # Remove caracteres não-alfanuméricos
+    no_css: bool = False,                   # Remove palavras relacionadas a HTML e CSS
+    no_stopwords: bool = False,             # Remove stopwords
+    lemmatize: bool = False,                # Aplica lematização à string
+    replace_synonym: bool = False,          # Aplica o método get_synonym
+    replace_synonym_by_dict: bool = False   # Aplica o método get_synonym_by_dict
 ) -> str:
 ```
 
@@ -140,6 +138,7 @@ Utilizando text_para_vetor estaticamente: ['eu', 'ser', 'o', 'primeiro', 'texto'
 
 # Licença
 Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). 
+
 Domingo, 21 de Julho de 2024, às 09:54:07
 
 Você pode:
@@ -156,7 +155,7 @@ Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](.
 # Créditos
 A biblioteca Berna TJGO DIACDE foi desenvolvida pelo Tribunal de Justiça do Estado de Goiás, pela [Diretoria de Inteligência Artificial, Ciência de Dados e Estatística](https://github.com/TJGO-DIACDE) - <TJGOdiacde@tjgo.jus.br>.
 
-## Desenvolvedores:
-[Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br>
-[Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com>.
-[Wesley]()
+# Desenvolvedores:
+[Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br> <br>
+[Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com> <br>
+[Wesley Oliveira](https://github.com/waejl) - <wesley@woliveira.me>

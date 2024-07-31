@@ -1,4 +1,10 @@
 Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+Created on Sun Jul 21 09:54:07 2024
+
+# Desenvolvedores:
+[Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br> <br>
+[Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com> <br>
+[Wesley Oliveira](https://github.com/waejl) - <wesley@woliveira.me>
 
 You are free to:
 - Share — copy and redistribute the material in any medium or format
