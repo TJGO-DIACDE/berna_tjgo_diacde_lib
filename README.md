@@ -53,8 +53,8 @@ Método principal do módulo de pré-processamento que engloba e executa todas a
 def clear(
     txt: str,
     no_punctuation: bool = False,           # Remove caracteres não-alfanuméricos
-    no_css: bool = False,                   # Remove palavras relacionadas a HTML e CSS
     no_stopwords: bool = False,             # Remove stopwords
+    no_html: bool = False,                   # Remove palavras relacionadas a HTML e CSS
     lemmatize: bool = False,                # Aplica lematização à string
     replace_synonym: bool = False,          # Aplica o método get_synonym
     replace_synonym_by_dict: bool = False   # Aplica o método get_synonym_by_dict
@@ -66,8 +66,8 @@ def clear(
 texto_limpo = prep.clear(
     "Seu texto aqui",
     no_punctuation=True,
-    no_css=True,
     no_stopwords=True,
+    no_html=True,
     lemmatize=True,
     replace_synonym=True,
     replace_synonym_by_dict=False
@@ -141,11 +141,11 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 
 Domingo, 21 de Julho de 2024, às 09:54:07
 
-Você pode:
+### Você pode:
 - Compartilhar — copiar e redistribuir o material em qualquer formato ou mídia
 - Adaptar — remixar, transformar e construir sobre o material
 
-Sob as seguintes condições:
+### Sob as seguintes condições:
 - Atribuição — Você deve dar o crédito apropriado, prover um link para a licença, e indicar se mudanças foram feitas. Você pode fazê-lo de qualquer forma razoável, mas não de forma que sugira que o licenciador endossa você ou seu uso.
 - Não Comercial — Você não pode usar o material para fins comerciais.
 - Compartilhar Igual — Se você remixar, transformar ou criar a partir do material, deve distribuir suas contribuições sob a mesma licença que o original.

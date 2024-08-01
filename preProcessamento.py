@@ -10,6 +10,8 @@ Created on Sun Jul 21 09:54:07 2024
 Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Você pode compartilhar, adaptar e construir sobre o material, desde que atribua crédito apropriado, não use o material para fins comerciais e distribua suas contribuições sob a mesma licença.
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 '''
+# Re
+import re
 
 # Pandas
 import pandas as pd
@@ -29,18 +31,18 @@ nlp = spacy.load('pt_core_news_sm')
 
 def clear(
     txt: str,
-    lematize: bool = False,
     no_ponctuation: bool = False,
-    no_css: bool = False,
     no_stopwords: bool = False,
+    no_html: bool = False,
+    lematize: bool = False,
     replace_synonym: bool = False,
     replace_synonym_by_dict: bool = False
 ) -> str:
     
     txt = txt.lower()
     
-    if no_css:
-        txt = remove_css(txt)
+    if no_html:
+        txt = remove_html(txt)
 
     if no_ponctuation:
         txt = remove_ponctuation(txt)
@@ -59,19 +61,8 @@ def clear(
 
     return txt
 
-def lemmatize_text(txt: str) -> str:
-    doc = nlp(txt)
-    lemmatized_text = ' '.join([token.lemma_.lower() for token in doc])
-
-    return lemmatized_text
-
 def remove_ponctuation(txt: str) -> str:
     txt = ''.join([l for l in txt if l.isalnum() or l==' '])
-
-    return txt
-
-def remove_css(txt: str) -> str:
-    txt = txt.replace('style@page','').replace('style','').replace('px','').replace('\"span ','').replace('p&ampnbsp','').replace(' p ','').replace('\"lineheight"','').replace('textindent','').replace('justify','').replace('150%','').replace(' /p ','').replace('100px','').replace('\"fontsize','').replace('marginleft','').replace('70px','').replace('&ampnbsp','').replace('\"fontfamily','').replace('80px','').replace('30px','').replace('100%','').replace('marginright','').replace(' margin ','').replace('\"textalign','').replace('\"fontfamily','').replace('','').replace(' times ','').replace(' br ','').replace(' span ','').replace('lineheight','').replace('fontsize','').replace('fontfamily','').replace('textalign','').replace(' p ','').replace('2016p','').replace('3cm','').replace('4cm','').replace('p&ampnbsp','').replace(' new ','').replace('romanspan','').replace('&ampnbsp','')
 
     return txt
 
@@ -81,8 +72,29 @@ def remove_stopwords(txt: str) -> str:
 
     return ' '.join(tokens)
 
+def remove_html(txt: str) -> str:
+    # Remove HTML
+    txt = re.sub(r'<style.?>.?</style>', '', txt, flags=re.DOTALL)
+    # Remove JavaScript
+    txt = re.sub(r'<script.?>.?</script>', '', txt, flags=re.DOTALL)
+    # Remove links
+    txt = re.sub(r'<a.?>.?</a>', '', txt, flags=re.DOTALL)
+    # Remove HTML tags
+    txt = re.sub(r'<.*?>', '', txt)
+    # Remove HTML entities
+    txt = re.sub(r'&\w+;', '', txt)
+
+    txt = txt.lower().replace('style@page','').replace('style','').replace('px','').replace('\"span ','').replace('p&ampnbsp','').replace(' p ','').replace('\"lineheight"','').replace('textindent','').replace('justify','').replace('150%','').replace(' /p ','').replace('100px','').replace('\"fontsize','').replace('marginleft','').replace('70px','').replace('&ampnbsp','').replace('\"fontfamily','').replace('80px','').replace('30px','').replace('100%','').replace('marginright','').replace(' margin ','').replace('\"textalign','').replace('\"fontfamily','').replace('','').replace(' times ','').replace(' br ','').replace(' span ','').replace('lineheight','').replace('fontsize','').replace('fontfamily','').replace('textalign','').replace(' p ','').replace('2016p','').replace('3cm','').replace('4cm','').replace('p&ampnbsp','').replace(' new ','').replace('romanspan','').replace('&ampnbsp','')
+
+    return txt
+
+def lemmatize_text(txt: str) -> str:
+    doc = nlp(txt)
+    lemmatized_text = ' '.join([token.lemma_.lower() for token in doc])
+
+    return lemmatized_text
+
 def get_synonym(txt: str) -> str:
-    
     # synonym of law
     txt = txt.replace('leis','lei')
     txt = txt.replace('complementares','complementar')
@@ -139,7 +151,7 @@ def _read_binary() -> object:
 
 if __name__=='__main__':
     # Teste func 1
-    print(clear('Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais. style@page', no_css=True, replace_synonym_by_dict=True))
+    print(clear('<span>Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.</span>', no_html=True, replace_synonym_by_dict=True))
 
     # Teste func 2
     print(lemmatize_text('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
@@ -148,7 +160,7 @@ if __name__=='__main__':
     print(remove_ponctuation('Esse é um teste! e não devem haver pontuações nessa frase...'))
     
     # Teste func 4
-    print(remove_css('Essa é uma frase sem palavras de css, style@page px'))
+    print(remove_html('<script>Essa é uma frase sem palavras de css, </script>'))
     
     # Teste func 5
     print(remove_stopwords('Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção.'))

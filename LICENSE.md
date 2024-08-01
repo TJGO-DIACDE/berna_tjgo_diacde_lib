@@ -1,4 +1,4 @@
-Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) <br>
 Created on Sun Jul 21 09:54:07 2024
 
 # Desenvolvedores:
