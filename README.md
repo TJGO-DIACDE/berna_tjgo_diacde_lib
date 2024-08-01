@@ -14,20 +14,20 @@ import berna_tjgo_diacde_lib as brn
 ```
 
 ## Instanciação:
-A classe Berna é definida com duas strings obrigatórias e um valor booleano opcional indicando a utilização do pré-processamento, considerado falso por padrão.
+A classe Berna é definida com duas strings obrigatórias e um valor booleano opcional indicando a utilização do pré-processamento, considerado falso por padrão. Lança um Erro caso alguma das duas sentenças for falsa.
 ```python
 calc1 = brn.Berna('Texto de exemplo 1', 'Texto de exemplo 2', True)
 ```
 
 ## Métodos
 ### Similaridade Jaccard: 
-Obtém o coeficiente de similaridade Jaccard entre as duas strings de entrada:
+Obtém o coeficiente de similaridade Jaccard, em porcentagem, entre as duas strings de entrada:
 ```python
 similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 75.0
 ```
 
 ### Similaridade por Cosseno: 
-Obtém o valor de similaridade por cosseno entre as duas strings de entrada:
+Obtém o valor de similaridade por cosseno, em porcentagem, entre as duas strings de entrada:
 ```python
 similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 60.0
 ```
@@ -54,8 +54,9 @@ def clear(
     txt: str,
     no_punctuation: bool = False,           # Remove caracteres não-alfanuméricos
     no_stopwords: bool = False,             # Remove stopwords
-    no_html: bool = False,                   # Remove palavras relacionadas a HTML e CSS
-    lemmatize: bool = False,                # Aplica lematização à string
+    no_html: bool = False,                  # Remove palavras relacionadas a HTML e CSS
+    lemmatize: bool = False,                # Aplica lematização a string
+    steamming: bool = False,                # Aplica stemming a string
     replace_synonym: bool = False,          # Aplica o método get_synonym
     replace_synonym_by_dict: bool = False   # Aplica o método get_synonym_by_dict
 ) -> str:
@@ -67,10 +68,8 @@ texto_limpo = prep.clear(
     "Seu texto aqui",
     no_punctuation=True,
     no_stopwords=True,
-    no_html=True,
     lemmatize=True,
     replace_synonym=True,
-    replace_synonym_by_dict=False
 )
 ```
 
@@ -107,7 +106,7 @@ print('\nCálculo de Similaridade')
 print(f'Jaccard: {berna.get_similaridade_jaccard()}')
 print(f'Cosseno: {berna.get_similaridade_cosseno()}')
 # Resultados esperados:
-# se Preprocess True: 77.7778 e 87.5
+# se Preprocess True: 60.0 e 75.0
 # se Preprocess False: 45.4545 e 62.5
 
 # Teste métodos módulo Pré Processamento
@@ -121,19 +120,19 @@ print(f'\nUtilizando text_para_vetor estaticamente: {brn.Berna.texto_para_vetor(
 
 ## Saída Esperada:
 ```
-Frase 1: ['eu', 'ser', 'o', 'primeiro', 'texto', 'de', 'antonio', 'pir']
-Frase 2: ['eu', 'ser', 'o', 'segundo', 'texto', 'de', 'antonio', 'pir']
+Frase 1: ['prim', 'text', 'antoni', 'pires']
+Frase 2: ['segund', 'text', 'antoni', 'pires']
 Preprocessamento: True
 
 Cálculo de Similaridade
-Jaccard: 77.7778
-Cosseno: 87.5
+Jaccard: 60.0
+Cosseno: 75.0
 
 Frase sem pontuações: eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.
 Frase com sinonimos filtrados: eu sou o primeiro texto de antonio pires, incluindo lei, lei, lei legais.
 Frase com sinonimos filtrados por dicionário: eu sou o primeiro texto de antonio pires, incluindo leis, leis, leis legais.
 
-Utilizando text_para_vetor estaticamente: ['eu', 'ser', 'o', 'primeiro', 'texto', 'de', 'antonio', 'pires', 'incluir', 'lei', 'lei', 'legal']
+Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pires', 'inclu', 'lei', 'lei', 'lei', 'legal']
 ```
 
 # Licença

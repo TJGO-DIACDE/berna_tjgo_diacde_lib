@@ -10,6 +10,8 @@ Created on Sun Jul 21 09:54:07 2024
 Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Você pode compartilhar, adaptar e construir sobre o material, desde que atribua crédito apropriado, não use o material para fins comerciais e distribua suas contribuições sob a mesma licença.
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 '''
+
+
 # Re
 import re
 
@@ -23,9 +25,11 @@ import pkg_resources
 import nltk
 import spacy
 from nltk.corpus import stopwords
+from nltk.stem import RSLPStemmer
 
 # NLTK
 nltk.download('stopwords', quiet=True)
+nltk.download('rslp', quiet=True)
 stop_words = set(stopwords.words('portuguese'))
 nlp = spacy.load('pt_core_news_sm')
 
@@ -34,7 +38,8 @@ def clear(
     no_ponctuation: bool = False,
     no_stopwords: bool = False,
     no_html: bool = False,
-    lematize: bool = False,
+    lemmatize: bool = False,
+    stemming: bool = False,
     replace_synonym: bool = False,
     replace_synonym_by_dict: bool = False
 ) -> str:
@@ -53,13 +58,21 @@ def clear(
     elif replace_synonym_by_dict:
         txt = get_synonym_by_dict(txt)
 
-    if lematize:
-        txt = lemmatize_text(txt)
+    if stemming:
+        txt = stem_txt(txt)
 
     if no_stopwords:
         txt = remove_stopwords(txt)
 
+    if lemmatize:
+        txt = lemmatize_txt(txt)
+
     return txt
+
+def tokenize(txt: str) -> list:
+    tokens = [w for w in nltk.word_tokenize(' '.join(txt))]
+    
+    return set(tokens)
 
 def remove_ponctuation(txt: str) -> str:
     txt = ''.join([l for l in txt if l.isalnum() or l==' '])
@@ -88,11 +101,18 @@ def remove_html(txt: str) -> str:
 
     return txt
 
-def lemmatize_text(txt: str) -> str:
+def lemmatize_txt(txt: str) -> str:
     doc = nlp(txt)
-    lemmatized_text = ' '.join([token.lemma_.lower() for token in doc])
+    txt = ' '.join([token.lemma_.lower() for token in doc])
 
-    return lemmatized_text
+    return txt
+
+def stem_txt(txt: str) -> str:
+    stemmer = RSLPStemmer()
+
+    tokens = txt.split()
+    stemmed_tokens = [stemmer.stem(word) for word in tokens]
+    return ' '.join(stemmed_tokens)
 
 def get_synonym(txt: str) -> str:
     # synonym of law
@@ -154,19 +174,22 @@ if __name__=='__main__':
     print(clear('<span>Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.</span>', no_html=True, replace_synonym_by_dict=True))
 
     # Teste func 2
-    print(lemmatize_text('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
+    print(lemmatize_txt('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
 
     # Teste func 3
+    print(stem_txt('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
+
+    # Teste func 4
     print(remove_ponctuation('Esse é um teste! e não devem haver pontuações nessa frase...'))
     
-    # Teste func 4
+    # Teste func 5
     print(remove_html('<script>Essa é uma frase sem palavras de css, </script>'))
     
-    # Teste func 5
+    # Teste func 6
     print(remove_stopwords('Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção.'))
 
-    # Teste func 6 
+    # Teste func 7
     print(get_synonym('Método de sinonimos: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
 
-    # Teste func 7
+    # Teste func 8
     print(get_synonym_by_dict('Método de sinonimos por dicionário: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
