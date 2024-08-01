@@ -23,13 +23,13 @@ calc1 = brn.Berna('Texto de exemplo 1', 'Texto de exemplo 2', True)
 ### Similaridade Jaccard: 
 Obtém o coeficiente de similaridade Jaccard, em porcentagem, entre as duas strings de entrada:
 ```python
-similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 75.0
+similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 50.0
 ```
 
 ### Similaridade por Cosseno: 
 Obtém o valor de similaridade por cosseno, em porcentagem, entre as duas strings de entrada:
 ```python
-similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 60.0
+similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 66.6667
 ```
 
 ### Transformação de texto para vetor: 
@@ -48,7 +48,7 @@ from berna_tjgo_diacde_lib import Prep as prep
 ```
 
 ### clear: 
-Método principal do módulo de pré-processamento que engloba e executa todas as funções. Recebe a string a ser processada e uma série de valores booleanos correspondentes às funções aplicadas durante o processamento.
+Método principal do módulo de pré-processamento que engloba e executa todas as funções. Recebe a string a ser processada e uma série de valores booleanos correspondentes às funções aplicadas durante o processamento. 
 ```python
 def clear(
     txt: str,

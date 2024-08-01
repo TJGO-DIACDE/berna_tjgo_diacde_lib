@@ -13,7 +13,7 @@ Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 
 
 # Módulo Integrado
-import preProcessamento as prep         # Retire o ponto para rodar localmente
+from . import preProcessamento as prep         # Retire o ponto para rodar localmente
 
 # NLTK
 from nltk.cluster.util import cosine_distance
@@ -93,7 +93,7 @@ def teste() -> None:
     print(f'Jaccard: {berna.get_similaridade_jaccard()}')
     print(f'Cosseno: {berna.get_similaridade_cosseno()}')
     # Resultados esperados:
-    # se Preprocess True: 77.7778 e 87.5
+    # se Preprocess True: 60.0 e 75.0
     # se Preprocess False: 45.4545 e 62.5
 
     # Teste métodos módulo Pré Processamento

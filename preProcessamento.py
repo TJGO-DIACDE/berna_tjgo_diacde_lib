@@ -54,18 +54,17 @@ def clear(
 
     if replace_synonym:
         txt = get_synonym(txt)
-
     elif replace_synonym_by_dict:
         txt = get_synonym_by_dict(txt)
-
-    if stemming:
-        txt = stem_txt(txt)
 
     if no_stopwords:
         txt = remove_stopwords(txt)
 
     if lemmatize:
         txt = lemmatize_txt(txt)
+
+    if stemming:
+        txt = stem_txt(txt)
 
     return txt
 
@@ -85,6 +84,19 @@ def remove_stopwords(txt: str) -> str:
 
     return ' '.join(tokens)
 
+def lemmatize_txt(txt: str) -> str:
+    doc = nlp(txt)
+    txt = ' '.join([token.lemma_.lower() for token in doc])
+
+    return txt
+
+def stem_txt(txt: str) -> str:
+    stemmer = RSLPStemmer()
+
+    tokens = txt.split()
+    stemmed_tokens = [stemmer.stem(word) for word in tokens]
+    return ' '.join(stemmed_tokens)
+
 def remove_html(txt: str) -> str:
     # Remove HTML
     txt = re.sub(r'<style.?>.?</style>', '', txt, flags=re.DOTALL)
@@ -100,19 +112,6 @@ def remove_html(txt: str) -> str:
     txt = txt.lower().replace('style@page','').replace('style','').replace('px','').replace('\"span ','').replace('p&ampnbsp','').replace(' p ','').replace('\"lineheight"','').replace('textindent','').replace('justify','').replace('150%','').replace(' /p ','').replace('100px','').replace('\"fontsize','').replace('marginleft','').replace('70px','').replace('&ampnbsp','').replace('\"fontfamily','').replace('80px','').replace('30px','').replace('100%','').replace('marginright','').replace(' margin ','').replace('\"textalign','').replace('\"fontfamily','').replace('','').replace(' times ','').replace(' br ','').replace(' span ','').replace('lineheight','').replace('fontsize','').replace('fontfamily','').replace('textalign','').replace(' p ','').replace('2016p','').replace('3cm','').replace('4cm','').replace('p&ampnbsp','').replace(' new ','').replace('romanspan','').replace('&ampnbsp','')
 
     return txt
-
-def lemmatize_txt(txt: str) -> str:
-    doc = nlp(txt)
-    txt = ' '.join([token.lemma_.lower() for token in doc])
-
-    return txt
-
-def stem_txt(txt: str) -> str:
-    stemmer = RSLPStemmer()
-
-    tokens = txt.split()
-    stemmed_tokens = [stemmer.stem(word) for word in tokens]
-    return ' '.join(stemmed_tokens)
 
 def get_synonym(txt: str) -> str:
     # synonym of law
