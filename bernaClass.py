@@ -13,6 +13,7 @@ Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 
 
 # Módulo Integrado
+# from . 
 from . import preProcessamento as prep         # Retire o ponto para rodar localmente
 
 # NLTK
@@ -98,8 +99,8 @@ def teste() -> None:
 
     # Teste métodos módulo Pré Processamento
     print('\nFrase sem pontuações: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-    print('Frase com sinonimos filtrados: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", replace_synonym=True))
-    print('Frase com sinonimos filtrados por dicionário: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", replace_synonym_by_dict=True))
+    print('Frase com sinonimos filtrados e lematização: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, replace_synonym=True))
+    print('Frase com sinonimos filtrados por dicionário e stemming: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
 
     # Teste método estático
     print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')

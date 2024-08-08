@@ -49,13 +49,13 @@ def clear(
     if no_html:
         txt = remove_html(txt)
 
-    if no_ponctuation:
-        txt = remove_ponctuation(txt)
-
     if replace_synonym:
         txt = get_synonym(txt)
     elif replace_synonym_by_dict:
         txt = get_synonym_by_dict(txt)
+
+    if no_ponctuation:
+        txt = remove_ponctuation(txt)
 
     if no_stopwords:
         txt = remove_stopwords(txt)

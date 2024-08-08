@@ -94,7 +94,7 @@ import berna_tjgo_diacde_lib as brn
 from berna_tjgo_diacde_lib import Prep as prep
 
 # Instância
-berna = brn.Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
+berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
 
 # Teste init
 print(f'\nFrase 1: {berna.vec_terms1}')
@@ -111,17 +111,17 @@ print(f'Cosseno: {berna.get_similaridade_cosseno()}')
 
 # Teste métodos módulo Pré Processamento
 print('\nFrase sem pontuações: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-print('Frase com sinonimos filtrados e sem pontuações: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", replace_synonym=True))
-print('Frase com sinonimos filtrados por dicionário: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", False, replace_synonym_by_dict=True))
+print('Frase com sinonimos filtrados e lematização: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, replace_synonym=True))
+print('Frase com sinonimos filtrados por dicionário e stemming: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
 
 # Teste método estático
-print(f'\nUtilizando text_para_vetor estaticamente: {brn.Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')
+print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')
 ```
 
 ## Saída Esperada:
 ```
-Frase 1: ['prim', 'text', 'antoni', 'pires']
-Frase 2: ['segund', 'text', 'antoni', 'pires']
+Frase 1: ['prim', 'text', 'antoni', 'pir']
+Frase 2: ['segund', 'text', 'antoni', 'pir']
 Preprocessamento: True
 
 Cálculo de Similaridade
@@ -129,10 +129,10 @@ Jaccard: 60.0
 Cosseno: 75.0
 
 Frase sem pontuações: eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.
-Frase com sinonimos filtrados: eu sou o primeiro texto de antonio pires, incluindo lei, lei, lei legais.
-Frase com sinonimos filtrados por dicionário: eu sou o primeiro texto de antonio pires, incluindo leis, leis, leis legais.
+Frase com sinonimos filtrados e lematização: eu ser o primeiro texto de antonio pires , incluir lei , lei , lei legal .
+Frase com sinonimos filtrados por dicionário e stemming: eu sou o prim text de antoni pires, inclu leis, leis, lei legais.
 
-Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pires', 'inclu', 'lei', 'lei', 'lei', 'legal']
+Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pir', 'inclu', 'lei', 'lel', 'lel', 'legal']
 ```
 
 # Licença
@@ -141,8 +141,8 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 Domingo, 21 de Julho de 2024, às 09:54:07
 
 ### Você pode:
-- Compartilhar — copiar e redistribuir o material em qualquer formato ou mídia
-- Adaptar — remixar, transformar e construir sobre o material
+- Compartilhar — copiar e redistribuir o material em qualquer formato ou mídia.
+- Adaptar — remixar, transformar e construir sobre o material.
 
 ### Sob as seguintes condições:
 - Atribuição — Você deve dar o crédito apropriado, prover um link para a licença, e indicar se mudanças foram feitas. Você pode fazê-lo de qualquer forma razoável, mas não de forma que sugira que o licenciador endossa você ou seu uso.
