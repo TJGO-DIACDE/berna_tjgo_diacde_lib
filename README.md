@@ -7,6 +7,16 @@ Para instalar a biblioteca, use o comando abaixo (ainda não publicada):
 pip install berna-tjgo-diacde-lib
 ```
 
+## Dependências
+
+Este projeto depende das seguintes bibliotecas:
+
+- `pandas>=2.2.2`
+- `spacy>=3.7.5`
+- `nltk>=3.8.1`
+
+Essas dependências serão automaticamente instaladas quando você instalar o pacote usando `pip install nome_do_seu_pacote`.
+
 # Classe Berna
 Para utilizar a classe, importe a biblioteca da seguinte forma:
 ```python
