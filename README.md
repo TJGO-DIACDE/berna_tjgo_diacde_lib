@@ -15,7 +15,7 @@ Este projeto depende das seguintes bibliotecas:
 - `spacy>=3.7.5`
 - `nltk>=3.8.1`
 
-Essas dependências serão automaticamente instaladas quando você instalar o pacote usando `pip install nome_do_seu_pacote`.
+Essas dependências serão instaladas automaticamente quando você instalar o pacote.
 
 # Classe Berna
 Para utilizar a classe, importe a biblioteca da seguinte forma:
