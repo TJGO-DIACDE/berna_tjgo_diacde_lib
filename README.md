@@ -15,7 +15,7 @@ Este projeto depende das seguintes bibliotecas:
 - `spacy>=3.7.5`
 - `nltk>=3.8.1`
 
-Essas dependências serão automaticamente instaladas quando você instalar o pacote usando `pip install nome_do_seu_pacote`.
+Essas dependências serão instaladas automaticamente quando você instalar o pacote.
 
 # Classe Berna
 Para utilizar a classe, importe a biblioteca da seguinte forma:
@@ -159,7 +159,7 @@ Domingo, 21 de Julho de 2024, às 09:54:07
 - Não Comercial — Você não pode usar o material para fins comerciais.
 - Compartilhar Igual — Se você remixar, transformar ou criar a partir do material, deve distribuir suas contribuições sob a mesma licença que o original.
 
-Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](./LICENSE) ou visite [CC BY-NC-SA 4.0 Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
+Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](./LICENSE.md) ou visite [CC BY-NC-SA 4.0 Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 
 # Créditos
 A biblioteca Berna TJGO DIACDE foi desenvolvida pelo Tribunal de Justiça do Estado de Goiás, pela [Diretoria de Inteligência Artificial, Ciência de Dados e Estatística](https://github.com/TJGO-DIACDE) - <TJGOdiacde@tjgo.jus.br>.
