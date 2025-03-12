@@ -1,10 +1,10 @@
 # Berna TJGO DIACDE Lib
-Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui a classe Berna para cálculo de similaridade entre textos e um módulo de pré-processamento de texto.
+Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui o módulo de pré-processamento de texto e a classe Berna para cálculo de similaridade entre textos.
 
 ## Instalação
-Para instalar a biblioteca, use o comando abaixo (ainda não publicada):
+Para instalar a biblioteca, use o comando abaixo:
 ```bash
-pip install berna-tjgo-diacde-lib
+pip install -i https://test.pypi.org/simple/ berna-tjgo-diacde-lib
 ```
 
 ## Dependências
@@ -15,85 +15,141 @@ Este projeto depende das seguintes bibliotecas:
 - `spacy>=3.7.5`
 - `nltk>=3.8.1`
 
-Essas dependências serão instaladas automaticamente quando você instalar o pacote.
+# Módulo de Pré-Processamento
+Módulo que conta com uma função principal que engloba e executa funções auxiliares.
 
-# Classe Berna
-Para utilizar a classe, importe a biblioteca da seguinte forma:
-```python
-import berna_tjgo_diacde_lib as brn
-```
-
-## Instanciação:
-A classe Berna é definida com duas strings obrigatórias e um valor booleano opcional indicando a utilização do pré-processamento, considerado falso por padrão. Lança um Erro caso alguma das duas sentenças for falsa.
-```python
-calc1 = brn.Berna('Texto de exemplo 1', 'Texto de exemplo 2', True)
-```
-
-## Métodos
-### Similaridade Jaccard: 
-Obtém o coeficiente de similaridade Jaccard, em porcentagem, entre as duas strings de entrada:
-```python
-similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 50.0
-```
-
-### Similaridade por Cosseno: 
-Obtém o valor de similaridade por cosseno, em porcentagem, entre as duas strings de entrada:
-```python
-similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 66.6667
-```
-
-### Transformação de texto para vetor: 
-Método estático para converter um texto em vetor. Pode ser usado diretamente ou pela instância da classe:
-```python
-vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)     # Retorno: ['texto', 'exemplo']
-```
-
-## Módulo de Pré-Processamento
-Modulo que conta com uma função principal que engloba e executa funções.
-
-### Importação
+## Importação
 Para usar o módulo de pré-processamento, importe da seguinte maneira:
 ```python
 from berna_tjgo_diacde_lib import Prep as prep
 ```
 
-### clear: 
-Método principal do módulo de pré-processamento que engloba e executa todas as funções. Recebe a string a ser processada e uma série de valores booleanos correspondentes às funções aplicadas durante o processamento. 
+### clear:
+Método principal do módulo de pré-processamento que engloba e executa todas as funções. Recebe a string a ser processada e uma série de valores booleanos correspondentes às funções aplicadas durante o processamento.
 ```python
 def clear(
-    txt: str,
-    no_punctuation: bool = False,           # Remove caracteres não-alfanuméricos
-    no_stopwords: bool = False,             # Remove stopwords
-    no_html: bool = False,                  # Remove palavras relacionadas a HTML e CSS
-    lemmatize: bool = False,                # Aplica lematização a string
-    steamming: bool = False,                # Aplica stemming a string
-    replace_synonym: bool = False,          # Aplica o método get_synonym
-    replace_synonym_by_dict: bool = False   # Aplica o método get_synonym_by_dict
-) -> str:
+    txt: str | list[str],
+    preset: list[str] = [],
+    no_ponctuation: bool = False,
+    no_multiple_spaces: bool = False,
+    no_loose_letters: bool = False,
+    no_email: bool = False,
+    no_numbers: bool = False,
+    no_stopwords: bool = False,
+    no_html: bool = False,
+    only_latin: bool = False,
+    lemmatize: bool = False,
+    stemming: bool = False,
+    replace_synonym_by_dict: bool = False
+) -> str | list:
 ```
 
-### Exemplo de uso:
+### Argumento preset
+O argumento preset permite configurar previamente um conjunto de métodos de pré-processamento de texto, evitando que o usuário precise especificá-los manualmente em cada chamada da função.
+
+#### Como usar
+Ao definir um preset, a função será configurada para sempre utilizar os métodos especificados, aplicando-os na ordem definida. Isso garante consistência no processamento sem a necessidade de repetir os argumentos a cada uso.
+
+#### Exemplo de preset
+```python
+from berna_tjgo_diacde_lib import Prep as prep
+
+preset = ["no_ponctuation", "no_multiple_spaces", "only_latin"]
+text = "Hello!!   This is an   example."
+
+clean_text = prep.clear(text, preset)  
+print(clean_text)  # Saída esperada: "Hello This is an example"
+```
+Os métodos são aplicados na sequência em que são passados no preset. Isso significa que a ordem irá impactar o resultado final.
+
+#### Por exemplo:
+```python
+preset1 = ["tokenize", "stemming"]
+preset2 = ["stemming", "tokenize"]
+```
+No primeiro caso, o texto será primeiro tokenizado (dividido em palavras) e depois passado pelo stemming (reduzido à raiz da palavra). No segundo caso, o stemming será aplicado antes da tokenização, o que pode alterar significativamente o resultado.
+
+Ao definir um preset, certifique-se de que a ordem dos métodos faz sentido para o processamento desejado.
+
+### Exemplo de Uso sem Presets:
 ```python
 texto_limpo = prep.clear(
     "Seu texto aqui",
     no_punctuation=True,
     no_stopwords=True,
     lemmatize=True,
-    replace_synonym=True,
+    replace_synonym_by_dict=True,
 )
 ```
 
-### get_synonym: 
-Substitui certas palavras do meio jurídico por suas contrapartes. Por exemplo: 'norma', 'decreto' e 'resolução' são substituídas pela palavra 'lei':
+### Funções Isoladas:
+Também é possível utilizar cada uma das funções separadamente pelos seguintes métodos:
+
+#### `remove_email(txt: str) -> str`
+Remove endereços de e-mail do texto.
 ```python
-prep.get_synonym('*Texto de Exemplo contendo leis e normas*')           # Retornaria '*Texto de Exemplo contendo lei e lei*'
+prep.remove_email("Essa é uma frase com email: exemplo@email.com")
 ```
 
-### get_synonym_by_dict:
-Semelhante ao método anterior, substitui certas palavras do meio jurídico por termos padronizados, mas desta vez utilizando um grande dicionário que inclui mais termos e termos em latim:
+#### `remove_html(txt: str) -> str`
+Remove tags HTML do texto.
 ```python
-prep.get_synonym_by_dict('*Texto de Exemplo contendo leis e normas*')   # Retornaria '*Texto de Exemplo contendo leis e Leis*'
+prep.remove_html("<p>Texto com HTML</p>")
 ```
+
+#### `remove_ponctuation(txt: str) -> str`
+Remove pontuação do texto.
+```python
+prep.remove_ponctuation("Texto com pontuação!")
+```
+
+#### `remove_multiple_espaces(txt: str) -> str`
+Remove espaços excessivos no texto.
+```python
+prep.remove_multiple_espaces("Texto   com   espaços  extras.")
+```
+
+#### `remove_loose_letters(txt: str) -> str`
+Remove letras soltas no texto.
+```python
+prep.remove_loose_letters("E s s e  é  u m  t e x t o")
+```
+
+#### `set_only_latin(txt: str) -> str`
+Mantém apenas caracteres do alfabeto latino.
+```python
+prep.set_only_latin("Texto com caracteres especiais: đ, ć, ł")
+```
+
+#### `remove_numbers(txt: str) -> str`
+Remove números do texto.
+```python
+prep.remove_numbers("Texto com números 12345")
+```
+
+#### `remove_stopwords(txt: str) -> str`
+Remove palavras de parada (stopwords) do texto.
+```python
+prep.remove_stopwords("Esse é um exemplo de um texto com stopwords.")
+```
+
+#### `lemmatize_txt(txt: str) -> str`
+Aplica lematização ao texto.
+```python
+prep.lemmatize_txt("Os carros estão correndo.")
+```
+
+#### `stem_txt(txt: str) -> str`
+Aplica stemming ao texto.
+```python
+prep.stem_txt("Correndo, correram, correria.")
+```
+
+#### `get_synonym_by_dict(txt: str) -> str`
+Substitui certas palavras por sinônimos definidos em um dicionário pré-definido.
+```python
+prep.get_synonym_by_dict("Incluindo leis, resoluções, normas legais.")
+```     
 
 # Exemplos Práticos:
 ```python
@@ -120,9 +176,9 @@ print(f'Cosseno: {berna.get_similaridade_cosseno()}')
 # se Preprocess False: 45.4545 e 62.5
 
 # Teste métodos módulo Pré Processamento
-print('\nFrase sem pontuações: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-print('Frase com sinonimos filtrados e lematização: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, replace_synonym=True))
-print('Frase com sinonimos filtrados por dicionário e stemming: ' + prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
+print('\nFrase sem pontuações: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
+print('Frase com sinonimos filtrados e lematização: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, only_latin=True))
+print('Frase com sinonimos filtrados por dicionário e stemming: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
 
 # Teste método estático
 print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')
@@ -143,6 +199,37 @@ Frase com sinonimos filtrados e lematização: eu ser o primeiro texto de antoni
 Frase com sinonimos filtrados por dicionário e stemming: eu sou o prim text de antoni pires, inclu leis, leis, lei legais.
 
 Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pir', 'inclu', 'lei', 'lel', 'lel', 'legal']
+```
+
+# Módulo de Similaridade
+Para utilizar a classe Berna de similaridade, importe a biblioteca da seguinte forma:
+```python
+import berna_tjgo_diacde_lib as brn
+```
+
+## Instanciação:
+A classe Berna é definida com duas strings obrigatórias e um valor booleano opcional indicando a utilização do pré-processamento, considerado falso por padrão. Lança um Erro caso alguma das duas sentenças for falsa.
+```python
+calc1 = brn.Berna('Texto de exemplo 1', 'Texto de exemplo 2', True)
+```
+
+## Métodos
+### Similaridade Jaccard:
+Obtém o coeficiente de similaridade Jaccard, em porcentagem, entre as duas strings de entrada:
+```python
+similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 50.0
+```
+
+### Similaridade por Cosseno:
+Obtém o valor de similaridade por cosseno, em porcentagem, entre as duas strings de entrada:
+```python
+similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 66.6667
+```
+
+### Transformação de texto para vetor:
+Método estático para converter um texto em vetor. Pode ser usado diretamente ou pela instância da classe:
+```python
+vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)     # Retorno: ['texto', 'exemplo']
 ```
 
 # Licença

@@ -79,7 +79,6 @@ class Berna:
 
         return ' '.join(vetor).split()
 
-
 def teste() -> None:
     # Instância
     berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)

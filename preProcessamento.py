@@ -1,4 +1,4 @@
-'''
+"""
 Created on Sun Jul 21 09:54:07 2024
 
 @authors:
@@ -9,186 +9,153 @@ Created on Sun Jul 21 09:54:07 2024
 @license:
 Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Você pode compartilhar, adaptar e construir sobre o material, desde que atribua crédito apropriado, não use o material para fins comerciais e distribua suas contribuições sob a mesma licença.
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
-'''
-
-
-# Re
-import re
-
-# Pandas
-import pandas as pd
-
-# Setup tools
-import pkg_resources
-
-# NLTK
-import nltk
-import spacy
-from nltk.corpus import stopwords
-from nltk.stem import RSLPStemmer
-
-# NLTK
-nltk.download('stopwords', quiet=True)
-nltk.download('rslp', quiet=True)
-stop_words = set(stopwords.words('portuguese'))
-nlp = spacy.load('pt_core_news_sm')
+"""
+from ._methods import *
+from .packages import Packages
 
 def clear(
-    txt: str,
+    txt: str | list[str],
+    preset: list[str] = [],
     no_ponctuation: bool = False,
+    no_multiple_spaces: bool = False,
+    no_loose_letters: bool = False,
+    only_latin: bool = False,
+    no_email: bool = False,
+    no_numbers: bool = False,
     no_stopwords: bool = False,
     no_html: bool = False,
     lemmatize: bool = False,
     stemming: bool = False,
-    replace_synonym: bool = False,
     replace_synonym_by_dict: bool = False
+) -> str | list:
+    """
+    Função para processar o texto de várias formas, removendo ou alterando caracteres,
+    espaços, pontuação, entre outros, conforme os parâmetros fornecidos.
+
+    Args:
+        txt (str or list[str]): Texto ou lista de textos a serem processados.
+        preset (list[str], opcional): Lista de métodos pré-definidos para aplicar.
+        no_ponctuation (bool, opcional): Se True, remove pontuação.
+        no_multiple_spaces (bool, opcional): Se True, remove espaços múltiplos.
+        no_loose_letters (bool, opcional): Se True, remove letras soltas.
+        only_latin (bool, opcional): Se True, limita o texto ao alfabeto latino.
+        no_email (bool, opcional): Se True, remove endereços de e-mail.
+        no_numbers (bool, opcional): Se True, remove números.
+        no_stopwords (bool, opcional): Se True, remove palavras de parada.
+        no_html (bool, opcional): Se True, remove tags HTML.
+        lemmatize (bool, opcional): Se True, realiza lematização no texto.
+        stemming (bool, opcional): Se True, realiza stemming no texto.
+        replace_synonym_by_dict (bool, opcional): Se True, substitui sinônimos por um dicionário.
+
+    Returns:
+        str or list[str]: Texto processado ou lista de textos processados.
+    """# Se o input for uma lista de strings, iteramos sobre ela
+    if isinstance(txt, list):
+        return [clear_single(t, preset, no_ponctuation, no_multiple_spaces, no_loose_letters, 
+                             only_latin, no_email, no_numbers, no_stopwords, no_html, 
+                             lemmatize, stemming, replace_synonym_by_dict) for t in txt]
+    
+    # Caso contrário, tratamos o texto como uma string
+    return clear_single(txt, preset, no_ponctuation, no_multiple_spaces, no_loose_letters, 
+                         only_latin, no_email, no_numbers, no_stopwords, no_html, 
+                         lemmatize, stemming, replace_synonym_by_dict)
+    
+def clear_single(
+    txt: str,
+    preset: list[str],
+    no_ponctuation: bool,
+    no_multiple_spaces: bool,
+    no_loose_letters: bool,
+    only_latin: bool,
+    no_email: bool,
+    no_numbers: bool,
+    no_stopwords: bool,
+    no_html: bool,
+    lemmatize: bool,
+    stemming: bool,
+    replace_synonym_by_dict: bool
 ) -> str:
     
-    txt = txt.lower()
+    if preset:
+        for method in preset:
+            txt = Packages.METHODS[method](txt)
+            
+        return txt
     
-    if no_html:
-        txt = remove_html(txt)
+    else:
+        txt = txt.lower()
 
-    if replace_synonym:
-        txt = get_synonym(txt)
-    elif replace_synonym_by_dict:
-        txt = get_synonym_by_dict(txt)
-
-    if no_ponctuation:
-        txt = remove_ponctuation(txt)
-
-    if no_stopwords:
-        txt = remove_stopwords(txt)
-
-    if lemmatize:
-        txt = lemmatize_txt(txt)
-
-    if stemming:
-        txt = stem_txt(txt)
-
-    return txt
-
-def tokenize(txt: str) -> list:
-    tokens = [w for w in nltk.word_tokenize(' '.join(txt))]
+        if no_email:
+            txt = remove_email(txt)
     
-    return set(tokens)
+        if no_html:
+            txt = remove_html(txt)
 
-def remove_ponctuation(txt: str) -> str:
-    txt = ''.join([l for l in txt if l.isalnum() or l==' '])
+        if replace_synonym_by_dict:
+            txt = get_synonym_by_dict(txt)
 
-    return txt
+        if no_ponctuation:
+            txt = remove_ponctuation(txt)
 
-def remove_stopwords(txt: str) -> str:
-    tokens = txt.split()
-    tokens = [word for word in tokens if word not in stop_words]
+        if no_multiple_spaces:
+            txt = remove_multiple_espaces(txt)
 
-    return ' '.join(tokens)
+        if no_loose_letters:
+            txt = remove_loose_letters(txt)
 
-def lemmatize_txt(txt: str) -> str:
-    doc = nlp(txt)
-    txt = ' '.join([token.lemma_.lower() for token in doc])
+        if only_latin:
+            txt = set_only_latin(txt)
+            
+        if no_numbers:
+            txt = remove_numbers(txt)
 
-    return txt
+        if no_stopwords:
+            txt = remove_stopwords(txt)
 
-def stem_txt(txt: str) -> str:
-    stemmer = RSLPStemmer()
+        if lemmatize:
+            txt = lemmatize_txt(txt)
 
-    tokens = txt.split()
-    stemmed_tokens = [stemmer.stem(word) for word in tokens]
-    return ' '.join(stemmed_tokens)
+        if stemming:
+            txt = stem_txt(txt)
 
-def remove_html(txt: str) -> str:
-    # Remove HTML
-    txt = re.sub(r'<style.?>.?</style>', '', txt, flags=re.DOTALL)
-    # Remove JavaScript
-    txt = re.sub(r'<script.?>.?</script>', '', txt, flags=re.DOTALL)
-    # Remove links
-    txt = re.sub(r'<a.?>.?</a>', '', txt, flags=re.DOTALL)
-    # Remove HTML tags
-    txt = re.sub(r'<.*?>', '', txt)
-    # Remove HTML entities
-    txt = re.sub(r'&\w+;', '', txt)
+        return txt
 
-    txt = txt.lower().replace('style@page','').replace('style','').replace('px','').replace('\"span ','').replace('p&ampnbsp','').replace(' p ','').replace('\"lineheight"','').replace('textindent','').replace('justify','').replace('150%','').replace(' /p ','').replace('100px','').replace('\"fontsize','').replace('marginleft','').replace('70px','').replace('&ampnbsp','').replace('\"fontfamily','').replace('80px','').replace('30px','').replace('100%','').replace('marginright','').replace(' margin ','').replace('\"textalign','').replace('\"fontfamily','').replace('','').replace(' times ','').replace(' br ','').replace(' span ','').replace('lineheight','').replace('fontsize','').replace('fontfamily','').replace('textalign','').replace(' p ','').replace('2016p','').replace('3cm','').replace('4cm','').replace('p&ampnbsp','').replace(' new ','').replace('romanspan','').replace('&ampnbsp','')
-
-    return txt
-
-def get_synonym(txt: str) -> str:
-    # synonym of law
-    txt = txt.replace('leis','lei')
-    txt = txt.replace('complementares','complementar')
-    txt = txt.replace('estaduais','estadual')
-    txt = txt.replace('federais','federal')
-    txt = txt.replace('portarias','portaria')
-    txt = txt.replace('decretos','decreto')
-    txt = txt.replace('resoluções','resolucao')
-    txt = txt.replace('resolucoes','resolucao')
-    txt = txt.replace('resolução','resolucao')
-    txt = txt.replace('normas','norma')
-    txt = txt.replace('ec.','lei')
-    txt = txt.replace('ec','lei')
-    txt = txt.replace('lei complementar','lei')
-    txt = txt.replace('lei estadual','lei')
-    txt = txt.replace('lei federal','lei')
-    txt = txt.replace('norma','lei')
-    txt = txt.replace('lei nº','lei')
-    txt = txt.replace('lei n','lei')
-    txt = txt.replace('lei n.','lei')
-    txt = txt.replace('atos normativos','lei')
-    txt = txt.replace('emenda constitucional','lei')
-    txt = txt.replace('ato normativo','lei')
-    txt = txt.replace('alterada pela','lei')
-    txt = txt.replace('decreto-lei','lei')
-    txt = txt.replace('decreto','lei')
-    txt = txt.replace('resolucao','lei')
-    txt = txt.replace('portaria','lei')
-    txt = txt.replace('lei lei','lei')
-    txt = txt.replace('adi',' lei')
-
-    return txt
-
-def get_synonym_by_dict(txt: str) -> str:
-    table_dict = _read_binary()
-
-    for _, row in table_dict.iterrows():
-
-        for token in str(row['DE_PARA']).split(','):
-            token = token.lower()
-
-            if token in txt:
-                txt = txt.replace(token, row['PALAVRA'].strip(', ').lower())
-
-    return txt
-
-
-def _read_binary() -> object:
-    file_local = pkg_resources.resource_filename(__name__, 'data/data.pkl')
-    df_carregado = pd.read_pickle(file_local)
-
-    return df_carregado
-
-
-if __name__=='__main__':
+if __name__=="__main__":
     # Teste func 1
-    print(clear('<span>Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.</span>', no_html=True, replace_synonym_by_dict=True))
+    print(clear(["<span>Eu sou o primeiro texto de antonio! pires, incluindo leis, resoluções, normas legais.</span>", "Essa é uma frase que não contém um email, joao@gmail.com."], no_html=True, no_email=True, no_ponctuation=True, only_latin=True))
 
     # Teste func 2
-    print(lemmatize_txt('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
+    print(lemmatize_txt("Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz."))
 
     # Teste func 3
-    print(stem_txt('Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz.'))
+    print(stem_txt("Esse é um exemplo de um texto lematizado, com palavras reduzidas a sua raíz."))
 
     # Teste func 4
-    print(remove_ponctuation('Esse é um teste! e não devem haver pontuações nessa frase...'))
+    print(remove_ponctuation("Esse é um teste! e não devem haver pontuações nessa frase..."))
     
     # Teste func 5
-    print(remove_html('<script>Essa é uma frase sem palavras de css, </script>'))
+    print(remove_html("<script>Essa é uma frase sem palavras de css, </script>"))
     
     # Teste func 6
-    print(remove_stopwords('Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção.'))
+    print(remove_stopwords("Esse é um exemplo de um texto sem stopwors, sem palavras de conjunção."))
 
-    # Teste func 7
-    print(get_synonym('Método de sinonimos: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+    # # Teste func 7
+    # print(get_synonym("Método de sinonimos: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
 
     # Teste func 8
-    print(get_synonym_by_dict('Método de sinonimos por dicionário: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.'))
+    print(get_synonym_by_dict("Método de sinonimos por dicionário: Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
+    
+    # Teste func 9
+    print(remove_multiple_espaces("  Esse   é um teste!   e não devem haver espaços extras   nessa frase..  ."))
+    
+    # Teste func 10
+    print(remove_loose_letters("Esse é um exemplo de frase sem letras s soltas a i."))
+    
+    # Teste func 11
+    print(set_only_latin("Essa é uma frase apenas com caracteres do alfabeto latin."))
+    
+    # Teste func 12
+    print(remove_email("Essa é uma frase que não contém um email, joao@gmail.com."))
+    
+    # Teste func 13
+    print(remove_numbers("Essa é um5a frase q2ue não contém números 123 4 22 3 135"))
