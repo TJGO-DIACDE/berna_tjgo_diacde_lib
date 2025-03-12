@@ -23,7 +23,7 @@ Módulo que conta com uma função principal que engloba e executa funções aux
 ## Importação
 Para usar o módulo de pré-processamento, importe da seguinte maneira:
 ```python
-from berna_tjgo_diacde_lib import Prep as prep
+from berna_tjgo_diacde_lib import preProcessamento as prep
 ```
 
 ### clear:
@@ -54,7 +54,7 @@ Ao definir um preset, a função será configurada para sempre utilizar os méto
 
 #### Exemplo de preset
 ```python
-from berna_tjgo_diacde_lib import Prep as prep
+from berna_tjgo_diacde_lib import preProcessamento as prep
 
 preset = ["no_ponctuation", "no_multiple_spaces", "only_latin"]
 text = "Hello!!   This is an   example."
@@ -190,7 +190,7 @@ vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)     # Retor
 import berna_tjgo_diacde_lib as brn
 
 # Import do módulo de Pré-processamento
-from berna_tjgo_diacde_lib import Prep as prep
+from berna_tjgo_diacde_lib import preProcessamento as prep
 
 # Instância
 berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
