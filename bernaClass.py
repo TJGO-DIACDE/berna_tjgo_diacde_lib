@@ -11,10 +11,8 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 '''
 
-
 # Módulo Integrado
-# from . 
-from . import preProcessamento as prep         # Retire o ponto para rodar localmente
+from . import preProcessamento as prep
 
 # NLTK
 from nltk.cluster.util import cosine_distance
