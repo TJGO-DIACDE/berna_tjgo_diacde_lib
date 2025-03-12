@@ -1,6 +1,9 @@
 # Berna TJGO DIACDE Lib
 Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui o módulo de pré-processamento de texto e a classe Berna para cálculo de similaridade entre textos.
 
+## Github
+https://github.com/TJGO-DIACDE/berna_tjgo_diacde_lib
+
 ## Instalação
 Para instalar a biblioteca, use o comando abaixo:
 ```bash
@@ -149,56 +152,6 @@ prep.stem_txt("Correndo, correram, correria.")
 Substitui certas palavras por sinônimos definidos em um dicionário pré-definido.
 ```python
 prep.get_synonym_by_dict("Incluindo leis, resoluções, normas legais.")
-```     
-
-# Exemplos Práticos:
-```python
-# Import da classe Berna
-import berna_tjgo_diacde_lib as brn
-
-# Import do módulo de Pré-processamento
-from berna_tjgo_diacde_lib import Prep as prep
-
-# Instância
-berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
-
-# Teste init
-print(f'\nFrase 1: {berna.vec_terms1}')
-print(f'Frase 2: {berna.vec_terms2}')
-print(f'Preprocessamento: {berna.pre_process}')
-
-# Teste cálculos Similaridades 
-print('\nCálculo de Similaridade')
-print(f'Jaccard: {berna.get_similaridade_jaccard()}')
-print(f'Cosseno: {berna.get_similaridade_cosseno()}')
-# Resultados esperados:
-# se Preprocess True: 60.0 e 75.0
-# se Preprocess False: 45.4545 e 62.5
-
-# Teste métodos módulo Pré Processamento
-print('\nFrase sem pontuações: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-print('Frase com sinonimos filtrados e lematização: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, only_latin=True))
-print('Frase com sinonimos filtrados por dicionário e stemming: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
-
-# Teste método estático
-print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')
-```
-
-## Saída Esperada:
-```
-Frase 1: ['prim', 'text', 'antoni', 'pir']
-Frase 2: ['segund', 'text', 'antoni', 'pir']
-Preprocessamento: True
-
-Cálculo de Similaridade
-Jaccard: 60.0
-Cosseno: 75.0
-
-Frase sem pontuações: eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.
-Frase com sinonimos filtrados e lematização: eu ser o primeiro texto de antonio pires , incluir lei , lei , lei legal .
-Frase com sinonimos filtrados por dicionário e stemming: eu sou o prim text de antoni pires, inclu leis, leis, lei legais.
-
-Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pir', 'inclu', 'lei', 'lel', 'lel', 'legal']
 ```
 
 # Módulo de Similaridade
@@ -230,6 +183,53 @@ similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 66.6667
 Método estático para converter um texto em vetor. Pode ser usado diretamente ou pela instância da classe:
 ```python
 vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)     # Retorno: ['texto', 'exemplo']
+```
+
+# Exemplos Práticos:
+```python
+# Import da classe Berna
+import berna_tjgo_diacde_lib as brn
+
+# Import do módulo de Pré-processamento
+from berna_tjgo_diacde_lib import Prep as prep
+
+# Instância
+berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
+
+# Teste init
+print(f'\nFrase 1: {berna.vec_terms1}')
+print(f'Frase 2: {berna.vec_terms2}')
+print(f'Preprocessamento: {berna.pre_process}')
+
+# Teste cálculos Similaridades 
+print('\nCálculo de Similaridade')
+print(f'Jaccard: {berna.get_similaridade_jaccard()}')
+print(f'Cosseno: {berna.get_similaridade_cosseno()}')
+# Resultados esperados:
+# se Preprocess True: 60.0 e 75.0
+# se Preprocess False: 45.4545 e 62.5
+
+# Teste métodos módulo Pré Processamento
+print('\nFrase sem pontuações: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
+print('Frase com sinonimos filtrados e lematização: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, only_latin=True))
+print('Frase com sinonimos filtrados por dicionário e stemming: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
+```
+
+## Saída Esperada:
+```
+Frase 1: ['prim', 'text', 'antoni', 'pir']
+Frase 2: ['segund', 'text', 'antoni', 'pir']
+Preprocessamento: True
+
+Cálculo de Similaridade
+Jaccard: 60.0
+Cosseno: 75.0
+
+Frase sem pontuações: eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.
+Frase com sinonimos filtrados e lematização: eu ser o primeiro texto de antonio pires , incluir lei , lei , lei legal .
+Frase com sinonimos filtrados por dicionário e stemming: eu sou o prim text de antoni pires, inclu leis, leis, lei legais.
+
+Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pir', 'inclu', 'lei', 'lel', 'lel', 'legal']
 ```
 
 # Licença
