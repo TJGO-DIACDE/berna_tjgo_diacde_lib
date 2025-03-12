@@ -7,11 +7,10 @@ https://github.com/TJGO-DIACDE/berna_tjgo_diacde_lib
 ## Instalação
 Para instalar a biblioteca, use o comando abaixo:
 ```bash
-pip install -i https://test.pypi.org/simple/ berna-tjgo-diacde-lib
+pip install berna-tjgo-diacde-lib
 ```
 
 ## Dependências
-
 Este projeto depende das seguintes bibliotecas:
 
 - `pandas>=2.2.2`
