@@ -18,7 +18,6 @@ class Packages:
         "no_loose_letters": remove_loose_letters,
         "no_multiple_spaces": remove_multiple_espaces,
         "replace_synonym_by_dict": get_synonym_by_dict,
-        "tokenize": tokenize,
         "no_html": remove_html,
         "no_email": remove_email,
         "no_numbers": remove_numbers,

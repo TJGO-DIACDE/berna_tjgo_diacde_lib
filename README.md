@@ -33,17 +33,17 @@ def clear(
     txt: str | list[str],
     preset: list[str] = [],
     no_ponctuation: bool = False,
-    no_multiple_spaces: bool = False,
     no_loose_letters: bool = False,
+    no_multiple_spaces: bool = False,
+    replace_synonym_by_dict: bool = False,
+    no_html: bool = False,
     no_email: bool = False,
     no_numbers: bool = False,
     no_stopwords: bool = False,
-    no_html: bool = False,
     only_latin: bool = False,
     lemmatize: bool = False,
-    stemming: bool = False,
-    replace_synonym_by_dict: bool = False
-) -> str | list:
+    stemming: bool = False
+) -> str | list[str]:
 ```
 
 ### Argumento preset
