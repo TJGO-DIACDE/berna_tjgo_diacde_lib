@@ -4,6 +4,7 @@ Created on Sun Jul 21 09:54:07 2024
 # Desenvolvedores:
 [Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br> <br>
 [Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com> <br>
+[João Gabriel](https://github.com/joaograndotto) - <grandottojoao@gmail.com> <br>
 [Wesley Oliveira](https://github.com/waejl) - <wesley@woliveira.me>
 
 You are free to:

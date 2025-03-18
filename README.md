@@ -253,4 +253,5 @@ A biblioteca Berna TJGO DIACDE foi desenvolvida pelo Tribunal de Justiça do Est
 # Desenvolvedores:
 [Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br> <br>
 [Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com> <br>
+[João Gabriel](https://github.com/joaograndotto) - <grandottojoao@gmail.com> <br>
 [Wesley Oliveira](https://github.com/waejl) - <wesley@woliveira.me>

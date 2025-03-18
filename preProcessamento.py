@@ -4,6 +4,7 @@ Created on Sun Jul 21 09:54:07 2024
 @authors:
     Antonio Pires
     Milton Ávila
+    João Gabriel
     Wesley Oliveira
 
 @license:
