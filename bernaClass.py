@@ -77,8 +77,8 @@ class Berna:
         vetor = [w for w in txt.split()]
 
         return ' '.join(vetor).split()
-
-def teste() -> None:
+    
+if __name__ == '__main__':
     # Instância
     berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
 
@@ -102,6 +102,3 @@ def teste() -> None:
 
     # Teste método estático
     print(f'\nUtilizando text_para_vetor estaticamente: {Berna.texto_para_vetor(None, "Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", True)}\n')
-    
-if __name__ == '__main__':
-    teste()
