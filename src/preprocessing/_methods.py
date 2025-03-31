@@ -13,10 +13,8 @@ Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 import re
 import regex
 import pandas as pd
-
 # Setup tools
 import pkg_resources
-
 # NLTK
 import nltk
 import spacy
@@ -100,7 +98,7 @@ def remove_email(txt: str) -> str:
     return re.sub(regex_emails_urls, "", txt).strip()
 
 def _read_binary() -> object:
-    file_local = pkg_resources.resource_filename(__name__, "data/data.pkl")
+    file_local = pkg_resources.resource_filename(__name__, "data/sinonimos.pkl")
     df_carregado = pd.read_pickle(file_local)
 
     return df_carregado

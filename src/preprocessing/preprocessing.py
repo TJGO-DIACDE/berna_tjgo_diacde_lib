@@ -12,7 +12,7 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 """
 from ._methods import *
-from .packages import Packages
+from src.config.packages import Packages
 
 def clear(
     txt: str | list[str],
