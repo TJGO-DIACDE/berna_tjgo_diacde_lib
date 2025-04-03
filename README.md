@@ -1,6 +1,10 @@
 # Berna TJGO DIACDE Lib
 Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui o módulo de pré-processamento de texto e a classe Berna para cálculo de similaridade entre textos.
 
+Esse repositório público contém algumas das ferramentas usadas internamente. Por enquanto, ele conta apenas com um módulo para pré-processamento de texto e um módulo secundário para cálculo de similaridade entre textos.
+
+Esse repositório representa apenas uma parte do processo de padronização textual utilizado internamente e não contém nenhuma parte do código da BERNA.
+
 ## Github
 https://github.com/TJGO-DIACDE/berna_tjgo_diacde_lib
 
