@@ -50,16 +50,22 @@ def clear(
 
     Returns:
         str or list[str]: Texto processado ou lista de textos processados.
-    """# Se o input for uma lista de strings, iteramos sobre ela
+    """
+    # Se o input for uma lista de strings, iteramos sobre ela
     if isinstance(txt, list):
-        return [clear_single(t, preset, no_ponctuation, no_multiple_spaces, no_loose_letters, 
-                             only_latin, no_email, no_numbers, no_stopwords, no_html, 
-                             lemmatize, stemming, replace_synonym_by_dict) for t in txt]
+        return [clear_single(
+        t,
+            preset, no_ponctuation, no_multiple_spaces, no_loose_letters, 
+            only_latin, no_email, no_numbers, no_stopwords, no_html, 
+            lemmatize, stemming, replace_synonym_by_dict
+        ) for t in txt]
     
     # Caso contrário, tratamos o texto como uma string
-    return clear_single(txt, preset, no_ponctuation, no_multiple_spaces, no_loose_letters, 
-                         only_latin, no_email, no_numbers, no_stopwords, no_html, 
-                         lemmatize, stemming, replace_synonym_by_dict)
+    return clear_single(
+        txt, preset, no_ponctuation, no_multiple_spaces, no_loose_letters, 
+        only_latin, no_email, no_numbers, no_stopwords, no_html, 
+        lemmatize, stemming, replace_synonym_by_dict
+    )
     
 def clear_single(
     txt: str,
@@ -79,7 +85,8 @@ def clear_single(
     
     if preset:
         for method in preset:
-            txt = Packages.METHODS[method](txt)
+            method = getattr(Packages.PREP_METHODS, method)
+            txt = method(txt)
             
         return txt
     
