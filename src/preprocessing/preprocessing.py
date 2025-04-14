@@ -86,46 +86,35 @@ def clear_single(
     if preset:
         for method in preset:
             method = getattr(Packages.PREP_METHODS, method)
-            txt = method(txt)
             
+            txt = method(txt)
         return txt
     
     else:
         txt = txt.lower()
-
+        
         if no_email:
             txt = remove_email(txt)
-    
         if no_html:
             txt = remove_html(txt)
-
         if replace_synonym_by_dict:
             txt = get_synonym_by_dict(txt)
-
         if no_ponctuation:
             txt = remove_ponctuation(txt)
-
         if no_multiple_spaces:
             txt = remove_multiple_espaces(txt)
-
         if no_loose_letters:
             txt = remove_loose_letters(txt)
-
         if only_latin:
             txt = set_only_latin(txt)
-            
         if no_numbers:
             txt = remove_numbers(txt)
-
         if no_stopwords:
             txt = remove_stopwords(txt)
-
         if lemmatize:
             txt = lemmatize_txt(txt)
-
         if stemming:
             txt = stem_txt(txt)
-
         return txt
 
 if __name__=="__main__":
