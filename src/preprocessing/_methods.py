@@ -27,7 +27,7 @@ nltk.download("rslp", quiet=True)
 stop_words = set(stopwords.words("portuguese"))
 nlp = spacy.load("pt_core_news_sm")
 
-def remove_html(txt: str) -> str:
+def no_html(txt: str) -> str:
     # Remove HTML
     txt = re.sub(r"<style.?>.?</style>", "", txt, flags=re.DOTALL)
     # Remove JavaScript
@@ -46,7 +46,7 @@ def remove_html(txt: str) -> str:
 #     # synonym of law
 #     return txt.replace("leis","lei").replace("complementares","complementar").replace("estaduais","estadual").replace("federais","federal").replace("portarias","portaria").replace("decretos","decreto").replace("resoluções","resolucao").replace("resolucoes","resolucao").replace("resolução","resolucao").replace("normas","norma").replace("ec.","lei").replace("ec","lei").replace("lei complementar","lei").replace("lei estadual","lei").replace("lei federal","lei").replace("norma","lei").replace("lei nº","lei").replace("lei n","lei").replace("lei n.","lei").replace("atos normativos","lei").replace("emenda constitucional","lei").replace("ato normativo","lei").replace("alterada pela","lei").replace("decreto-lei","lei").replace("decreto","lei").replace("resolucao","lei").replace("portaria","lei").replace("lei lei","lei").replace("adi"," lei")
 
-def get_synonym_by_dict(txt: str) -> str:
+def replace_synonym_by_dict(txt: str) -> str:
     table_dict = _read_binary()
 
     for _, row in table_dict.iterrows():
@@ -60,18 +60,18 @@ def get_synonym_by_dict(txt: str) -> str:
     return txt
 # ##
 
-def remove_ponctuation(txt: str) -> str:
+def no_ponctuation(txt: str) -> str:
     return re.sub(r"[^\w\s]", "", txt)
 
-def remove_stopwords(txt: str) -> str:
+def no_stopwords(txt: str) -> str:
     tokens = txt.split()
     tokens = [word for word in tokens if word not in stop_words]
     return " ".join(tokens)
 
-def lemmatize_txt(txt: str) -> str:
+def lemmatize(txt: str) -> str:
     return " ".join([token.lemma_.lower() for token in nlp(txt)])
 
-def stem_txt(txt: str) -> str:
+def stemming(txt: str) -> str:
     stemmer = RSLPStemmer()
 
     tokens = txt.split()
@@ -81,19 +81,19 @@ def stem_txt(txt: str) -> str:
 def tokenize(txt: str) -> list:
     return set([w for w in nltk.word_tokenize(" ".join(txt))])
 
-def set_only_latin(txt: str) -> str:
+def only_latin(txt: str) -> str:
     return regex.sub(r"[^\p{IsLatin}\s\d\p{P}]", "", txt)
 
-def remove_numbers(txt: str) -> str:
+def no_numbers(txt: str) -> str:
     return re.sub(r"\d", "", txt)
 
-def remove_multiple_espaces(txt: str) -> str:
+def no_multiple_spaces(txt: str) -> str:
     return re.sub(r"\s+", " ", txt).strip()
 
-def remove_loose_letters(txt: str) -> str:
+def no_loose_letters(txt: str) -> str:
     return re.sub(r"\b(?:[a-zA-Z] ){2,}[a-zA-Z]\b", "", txt)
 
-def remove_email(txt: str) -> str:
+def no_email(txt: str) -> str:
     regex_emails_urls = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b|https?://\S+|www\.\S+"
     return re.sub(regex_emails_urls, "", txt).strip()
 
