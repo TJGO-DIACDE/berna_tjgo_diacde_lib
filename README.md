@@ -1,4 +1,11 @@
+
+
 # Berna TJGO DIACDE Lib
+[![PyPI version](https://img.shields.io/pypi/v/berna-tjgo-diacde-lib)](https://pypi.org/project/berna-tjgo-diacde-lib/)
+[![License](https://img.shields.io/pypi/l/mkdocs-badges)](LICENSE.md)
+![Python versions](https://img.shields.io/pypi/pyversions/mkdocs-badges)
+
+## Documentation
 Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui o módulo de pré-processamento de texto e a classe Berna para cálculo de similaridade entre textos.
 
 Esse repositório público contém algumas das ferramentas usadas internamente. Por enquanto, ele conta apenas com um módulo para pré-processamento de texto e um módulo secundário para cálculo de similaridade entre textos.
