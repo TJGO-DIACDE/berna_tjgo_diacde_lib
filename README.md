@@ -1,199 +1,131 @@
-
-
 # Berna TJGO DIACDE Lib
-[![PyPI version](https://img.shields.io/pypi/v/berna-tjgo-diacde-lib)](https://pypi.org/project/berna-tjgo-diacde-lib/)
-[![License](https://img.shields.io/pypi/l/mkdocs-badges)](https://github.com/TJGO-DIACDE/berna_tjgo_diacde_lib/blob/main/LICENSE.md)
-![Python versions](https://img.shields.io/pypi/pyversions/mkdocs-badges)
 
-## Documentation
-Biblioteca desenvolvida pelo TJGO, Diretoria de Inteligência Artificial, Ciência de Dados e Estatística. Este pacote inclui o módulo de pré-processamento de texto e a classe Berna para cálculo de similaridade entre textos.
+Biblioteca desenvolvida pelo **TJGO (Diretoria de Inteligência Artificial, Ciência de Dados e Estatística)**. Este pacote oferece ferramentas robustas para pré-processamento de texto e cálculo de similaridade textual, essenciais para processamento de linguagem natural (NLP) e preparação de dados para LLMs.
 
-Esse repositório público contém algumas das ferramentas usadas internamente. Por enquanto, ele conta apenas com um módulo para pré-processamento de texto e um módulo secundário para cálculo de similaridade entre textos.
+O núcleo das operações de texto é fornecido pela classe `TextUtils`, acessível através de duas interfaces:
 
-Esse repositório representa apenas uma parte do processo de padronização textual utilizado internamente e não contém nenhuma parte do código da BERNA.
+1. **Interface Fluente (`ProcessLinked`):** Para aplicações diretas e encadeadas.
+2. **Processador Baseado em Pipeline (`ProcessPipeline`):** Para workflows configuráveis e reprodutíveis.
 
-## Github
-https://github.com/TJGO-DIACDE/berna_tjgo_diacde_lib
+Para cálculo de similaridade textual, a biblioteca disponibiliza a classe `Berna`.
+
+> **Nota:** Este repositório público contém uma seleção de ferramentas usadas internamente pelo TJGO.
+
+---
+
 
 ## Instalação
-Para instalar a biblioteca, use o comando abaixo:
+* **PyPI:** [berna-tjgo-diacde-lib](https://pypi.org/project/berna-tjgo-diacde-lib/)
+
+Para instalar a biblioteca, utilize o gerenciador de pacotes `pip`:
+
 ```bash
 pip install berna-tjgo-diacde-lib
+
 ```
 
-## Dependências
-Este projeto depende das seguintes bibliotecas:
+### Dependências
 
-- `pandas>=2.2.2`
-- `spacy>=3.7.5`
-- `nltk>=3.8.1`
+O projeto utiliza as seguintes bibliotecas:
 
-# Módulo de Pré-Processamento
-Módulo que conta com uma função principal que engloba e executa funções auxiliares.
+* `spacy`
+* `nltk`
+* `beautifulsoup4`
+* `snowballstemmer`
 
-## Importação
-Para usar o módulo de pré-processamento, importe da seguinte maneira:
+*Nota: Alguns modelos do spaCy (como `pt_core_news_sm`) podem precisar ser baixados separadamente.*
+
+---
+
+## Módulo de Pré-Processamento
+
+### 1. Interface Fluente com `ProcessLinked`
+
+Ideal para transformações rápidas de forma legível.
+
 ```python
-from berna_tjgo_diacde_lib import preProcessamento as prep
-```
+from berna_tjgo_diacde_lib import ProcessLinked
 
-### clear:
-Método principal do módulo de pré-processamento que engloba e executa todas as funções. Recebe a string a ser processada e uma série de valores booleanos correspondentes às funções aplicadas durante o processamento.
-```python
-def clear(
-    txt: str | list[str],
-    preset: list[str] = [],
-    no_ponctuation: bool = False,
-    no_loose_letters: bool = False,
-    no_multiple_spaces: bool = False,
-    replace_synonym_by_dict: bool = False,
-    no_html: bool = False,
-    no_email: bool = False,
-    no_numbers: bool = False,
-    no_stopwords: bool = False,
-    only_latin: bool = False,
-    lemmatize: bool = False,
-    stemming: bool = False
-) -> str | list[str]:
-```
+text = "  Olá, mundo! Este é um teste com números 123. E e-mail: test@example.com.  "
 
-### Argumento preset
-O argumento preset permite configurar previamente um conjunto de métodos de pré-processamento de texto, evitando que o usuário precise especificá-los manualmente em cada chamada da função.
-
-#### Como usar
-Ao definir um preset, a função será configurada para sempre utilizar os métodos especificados, aplicando-os na ordem definida. Isso garante consistência no processamento sem a necessidade de repetir os argumentos a cada uso.
-
-#### Exemplo de preset
-```python
-from berna_tjgo_diacde_lib import preProcessamento as prep
-
-preset = ["no_ponctuation", "no_multiple_spaces", "only_latin"]
-text = "Hello!!   This is an   example."
-
-clean_text = prep.clear(text, preset)  
-print(clean_text)  # Saída esperada: "Hello This is an example"
-```
-Os métodos são aplicados na sequência em que são passados no preset. Isso significa que a ordem irá impactar o resultado final.
-
-#### Por exemplo:
-```python
-preset1 = ["tokenize", "stemming"]
-preset2 = ["stemming", "tokenize"]
-```
-No primeiro caso, o texto será primeiro tokenizado (dividido em palavras) e depois passado pelo stemming (reduzido à raiz da palavra). No segundo caso, o stemming será aplicado antes da tokenização, o que pode alterar significativamente o resultado.
-
-Ao definir um preset, certifique-se de que a ordem dos métodos faz sentido para o processamento desejado.
-
-### Exemplo de Uso sem Presets:
-```python
-texto_limpo = prep.clear(
-    "Seu texto aqui",
-    no_punctuation=True,
-    no_stopwords=True,
-    lemmatize=True,
-    replace_synonym_by_dict=True,
+processed_text = (
+    ProcessLinked(text)
+    .filter_email()              # Remove e-mails
+    .filter_spaces()             # Remove múltiplos espaços
+    .filter_special_characters() # Remove pontuações
+    .filter_numbers()            # Remove números
+    .stemming()                  # Reduz palavras à raiz (ex: 'correndo' -> 'corr')
+    .as_str()                    # Obtém a string final
 )
+
+print(processed_text)
+# Saída: Olá mund Este é um test com númer E email
+
 ```
 
-# Módulo de Similaridade
-Para utilizar a classe Berna de similaridade, importe a biblioteca da seguinte forma:
+### 2. Pipeline Declarativo com `ProcessPipeline`
+
+Ideal para definir fluxos complexos via configuração de lista, reutilizando pipelines.
+
 ```python
-import berna_tjgo_diacde_lib as brn
+from berna_tjgo_diacde_lib import ProcessPipeline
+
+text = "  Olá, mundo! Este é um teste com números 123. E e-mail: test@example.com.  "
+
+pipeline_config = [
+    {"name": "filter_email"},
+    {"name": "filter_spaces"},
+    {"name": "filter_special_characters"},
+    {"name": "filter_numbers"},
+    {"name": "remove_stopwords", "language": "portuguese"},
+    {"name": "stemming"}
+]
+
+processor = ProcessPipeline(pipeline_config)
+processed_text = processor.process(text)
+
+print(processed_text)
+
 ```
 
-## Instanciação:
-A classe Berna é definida com duas strings obrigatórias e um valor booleano opcional indicando a utilização do pré-processamento, considerado falso por padrão. Lança um Erro caso alguma das duas sentenças for falsa.
-```python
-calc1 = brn.Berna('Texto de exemplo 1', 'Texto de exemplo 2', True)
-```
+---
 
-## Métodos
-### Similaridade Jaccard:
-Obtém o coeficiente de similaridade Jaccard, em porcentagem, entre as duas strings de entrada:
-```python
-similaridade_jaccard = calc1.get_similaridade_jaccard()     # Retorno: 50.0
-```
+### Métodos Disponíveis (via `TextUtils`)
 
-### Similaridade por Cosseno:
-Obtém o valor de similaridade por cosseno, em porcentagem, entre as duas strings de entrada:
-```python
-similaridade_cosseno = calc1.get_similaridade_cosseno()     # Retorno: 66.6667
-```
+| Método | Descrição |
+| --- | --- |
+| `filter_special_characters` | Remove pontuação e caracteres especiais. |
+| `filter_spaces` | Padroniza múltiplos espaços para um único espaço. |
+| `filter_numbers` | Remove caracteres numéricos. |
+| `filter_links` | Remove URLs e links. |
+| `filter_email` | Remove endereços de e-mail. |
+| `filter_cnpj`/`cpf`/`rg` | Filtros específicos para documentos brasileiros. |
+| `filter_cep`/`oab` | Filtros para códigos postais e registros da OAB. |
+| `remove_stopwords` | Remove palavras comuns (ex: "e", "de", "o"). |
+| `remove_html` | Remove tags HTML via BeautifulSoup. |
+| `lemmatize` | Reduz palavras à forma base (lema) usando spaCy. |
+| `stemming` | Reduz palavras à raiz usando snowballstemmer. |
 
-### Transformação de texto para vetor:
-Método estático para converter um texto em vetor. Pode ser usado diretamente ou pela instância da classe:
-```python
-vetor = brn.Berna.texto_para_vetor(None, "*Texto de Exemplo*", True)     # Retorno: ['texto', 'exemplo']
-```
 
-# Exemplos Práticos:
-```python
-# Import da classe Berna
-import berna_tjgo_diacde_lib as brn
+---
 
-# Import do módulo de Pré-processamento
-from berna_tjgo_diacde_lib import preProcessamento as prep
+## Licença
 
-# Instância
-berna = Berna('Eu sou o primeiro texto de Antonio Pires', 'Eu sou o segundo texto de antonio pires', True)
+Este projeto está licenciado sob a **MIT License**. Você é livre para usar, modificar e distribuir o software, desde que mantenha os avisos de copyright.
 
-# Teste init
-print(f'\nFrase 1: {berna.vec_terms1}')
-print(f'Frase 2: {berna.vec_terms2}')
-print(f'Preprocessamento: {berna.pre_process}')
+---
 
-# Teste cálculos Similaridades 
-print('\nCálculo de Similaridade')
-print(f'Jaccard: {berna.get_similaridade_jaccard()}')
-print(f'Cosseno: {berna.get_similaridade_cosseno()}')
-# Resultados esperados:
-# se Preprocess True: 60.0 e 75.0
-# se Preprocess False: 45.4545 e 62.5
+## Créditos e Desenvolvedores
 
-# Teste métodos módulo Pré Processamento
-print('\nFrase sem pontuações: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais."))
-print('Frase com sinonimos filtrados e lematização: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", lemmatize=True, only_latin=True))
-print('Frase com sinonimos filtrados por dicionário e stemming: ', prep.clear("Eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.", stemming=True, replace_synonym_by_dict=True))
-```
+Desenvolvido pelo **Tribunal de Justiça do Estado de Goiás** - [Diretoria de Inteligência Artificial, Ciência de Dados e Estatística](https://github.com/TJGO-DIACDE).
 
-## Saída Esperada:
-```
-Frase 1: ['prim', 'text', 'antoni', 'pir']
-Frase 2: ['segund', 'text', 'antoni', 'pir']
-Preprocessamento: True
+**Time de Desenvolvimento:**
 
-Cálculo de Similaridade
-Jaccard: 60.0
-Cosseno: 75.0
+* [Antônio Pires](https://github.com/apcastrojr) - `<apcastro@tjgo.jus.br>`
+* [Milton Ávila](https://github.com/Milton-Avila) - `<miltonavila.dev@gmail.com>`
+* [João Gabriel](https://github.com/joaograndotto) - `<grandottojoao@gmail.com>`
+* [Wesley Oliveira](https://github.com/waejl) - `<wesley@woliveira.me>`
 
-Frase sem pontuações: eu sou o primeiro texto de antonio pires, incluindo leis, resoluções, normas legais.
-Frase com sinonimos filtrados e lematização: eu ser o primeiro texto de antonio pires , incluir lei , lei , lei legal .
-Frase com sinonimos filtrados por dicionário e stemming: eu sou o prim text de antoni pires, inclu leis, leis, lei legais.
+---
 
-Utilizando text_para_vetor estaticamente: ['prim', 'text', 'antoni', 'pir', 'inclu', 'lei', 'lel', 'lel', 'legal']
-```
-
-# Licença
-Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). 
-
-Domingo, 21 de Julho de 2024, às 09:54:07
-
-### Você pode:
-- Compartilhar — copiar e redistribuir o material em qualquer formato ou mídia.
-- Adaptar — remixar, transformar e construir sobre o material.
-
-### Sob as seguintes condições:
-- Atribuição — Você deve dar o crédito apropriado, prover um link para a licença, e indicar se mudanças foram feitas. Você pode fazê-lo de qualquer forma razoável, mas não de forma que sugira que o licenciador endossa você ou seu uso.
-- Não Comercial — Você não pode usar o material para fins comerciais.
-- Compartilhar Igual — Se você remixar, transformar ou criar a partir do material, deve distribuir suas contribuições sob a mesma licença que o original.
-
-Para mais detalhes, consulte o texto completo da licença no arquivo [LICENSE](https://github.com/TJGO-DIACDE/berna_tjgo_diacde_lib/blob/main/LICENSE.md) ou visite [CC BY-NC-SA 4.0 Legal Code](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
-
-# Créditos
-A biblioteca Berna TJGO DIACDE foi desenvolvida pelo Tribunal de Justiça do Estado de Goiás, pela [Diretoria de Inteligência Artificial, Ciência de Dados e Estatística](https://github.com/TJGO-DIACDE) - <TJGOdiacde@tjgo.jus.br>.
-
-# Desenvolvedores:
-[Antônio Pires](https://github.com/apcastrojr) - <apcastro@tjgo.jus.br> <br>
-[Milton Ávila](https://github.com/Milton-Avila) - <milton.estudantil@gmail.com> <br>
-[João Gabriel](https://github.com/joaograndotto) - <grandottojoao@gmail.com> <br>
-[Wesley Oliveira](https://github.com/waejl) - <wesley@woliveira.me>
+*Contato oficial: [estatistica@tjgo.jus.br*]()
