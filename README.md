@@ -142,6 +142,11 @@ print(f"Similaridade de Jaccard: {jaccard_similarity:.2f}%")
 # Similaridade de Jaccard: YY.YY%
 ```
 
+Note também o uso dos métodos estaticos calc_jaccard e calc_cosseno:
+```python
+Berna.calc_jaccard(doc1, doc2)
+```
+
 ---
 
 ## Licença
