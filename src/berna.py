@@ -14,7 +14,7 @@ Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 from nltk.cluster.util import cosine_distance
 import nltk
 
-from .preprocess import TextUtils
+from .text_utils import TextUtils
 
 class Berna:
     def __init__(self, doc1: str, doc2: str) -> None:
@@ -29,19 +29,23 @@ class Berna:
         self.vec_terms2 = TextUtils.tokenize(doc2)
         vec_terms_tuple = (self.vec_terms1, self.vec_terms2)
 
-        self.sim_cosseno = self.calcula_similaridade_cosseno(*vec_terms_tuple)
-        self.sim_jaccard = self.calcula_similaridade_jaccard(*vec_terms_tuple)
+        self.sim_jaccard = self.calc_jaccard(*vec_terms_tuple)
+        self.sim_cosseno = self.calc_cosseno(*vec_terms_tuple)
 
     @staticmethod
-    def calcula_similaridade_jaccard(vec_terms1: list[str], vec_terms2: list[str]) -> None:
-        union_terms =           len(vec_terms1 | vec_terms2)
-        intersection_terms =    len(vec_terms1 & vec_terms2)
+    def calc_jaccard(vec_terms1: list[str], vec_terms2: list[str]) -> float:
+        set1, set2 = set(vec_terms1), set(vec_terms2)
+        
+        union_terms = len(set1 | set2)
+        intersection_terms = len(set1 & set2)
 
-        return round( (intersection_terms / union_terms) * 100, 4 )
+        if union_terms == 0: return 0.0 # Evita divisão por zero
+        return round((intersection_terms / union_terms) * 100, 4)
 
     @staticmethod
-    def calcula_similaridade_cosseno(vec_terms1: list[str], vec_terms2: list[str]) -> None:
-        union_terms = list(vec_terms1 | vec_terms2)
+    def calc_cosseno(vec_terms1: list[str], vec_terms2: list[str]) -> float:
+        union_terms = list(set(vec_terms1) | set(vec_terms2))
+        
         l1 = [0] * len(union_terms)
         l2 = [0] * len(union_terms)
 
@@ -50,4 +54,4 @@ class Berna:
         for w in vec_terms2:
             l2[union_terms.index(w)] += 1
 
-        return round( (1 - cosine_distance(l1, l2)) * 100, 4 )
+        return round((1 - cosine_distance(l1, l2)) * 100, 4)
