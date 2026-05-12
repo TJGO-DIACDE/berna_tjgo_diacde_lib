@@ -105,7 +105,42 @@ print(processed_text)
 | `remove_html` | Remove tags HTML via BeautifulSoup. |
 | `lemmatize` | Reduz palavras à forma base (lema) usando spaCy. |
 | `stemming` | Reduz palavras à raiz usando snowballstemmer. |
+| `tokenize` | Divide o texto em uma lista de tokens (palavras ou sentenças, dependendo da implementação interna do NLTK). |
 
+
+---
+
+## Módulo de Cálculo de Similaridade
+
+Este módulo oferece funcionalidades para calcular a similaridade textual entre dois documentos utilizando diferentes métricas. A classe `Berna` é o ponto de entrada para estas operações, utilizando internamente o método `TextUtils.tokenize` para preparar o texto antes da comparação.
+
+### Classe `Berna`
+
+A classe `Berna` permite comparar duas strings e retorna o percentual de similaridade com base em métricas comuns:
+
+*   **Similaridade de Cosseno (`sim_cosseno`):** Mede o cosseno do ângulo entre dois vetores não nulos em um espaço multidimensional.
+*   **Índice de Jaccard (`sim_jaccard`):** Mede a similaridade entre dois conjuntos finitos, sendo definida como o tamanho da interseção dividido pelo tamanho da união dos conjuntos.
+
+#### Exemplo de Uso:
+
+```python
+from berna_tjgo_diacde_lib import Berna
+
+doc1 = "Este é o primeiro documento para teste de similaridade."
+doc2 = "Este documento é o segundo para testar a similaridade textual."
+
+similarity_calculator = Berna(doc1, doc2)
+
+cosine_similarity = similarity_calculator.sim_cosseno
+jaccard_similarity = similarity_calculator.sim_jaccard
+
+print(f"Similaridade de Cosseno: {cosine_similarity:.2f}%")
+print(f"Similaridade de Jaccard: {jaccard_similarity:.2f}%")
+
+# Saída esperada (aproximada):
+# Similaridade de Cosseno: XX.XX%
+# Similaridade de Jaccard: YY.YY%
+```
 
 ---
 
