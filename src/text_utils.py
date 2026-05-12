@@ -20,7 +20,7 @@ PROCESS_METHODS = (
     "filter_cnpj", "filter_cpf", "filter_rg",
     "filter_cep", "filter_oab", "filter_telefone",
     "remove_stopwords", "remove_html",
-    "lemmatize", "stemming",
+    "lemmatize", "stemming", "tokenize",
 )
 
 class TextUtils:
