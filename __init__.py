@@ -12,4 +12,5 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 '''
 from .src.preprocess import ProcessLinked, ProcessPipeline
-from .src.text_utils import TextUtils
+from .src.text_utils import TextUtil
+from .src.berna import Berna

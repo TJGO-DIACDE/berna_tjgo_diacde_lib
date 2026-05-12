@@ -12,6 +12,7 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 """
 from typing import Self
+import nltk
 
 from . import TextUtils, PROCESS_METHODS
 
@@ -84,6 +85,9 @@ class ProcessLinked:
         return self
 
     # Utils
+    def as_tokens(self) -> list[str]:
+        return TextUtils.tokenize(self.txt)
+    
     def as_str(self) -> str:
         return self.txt
 

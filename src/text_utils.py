@@ -12,6 +12,7 @@ Este projeto está licenciado sob a Licença Attribution-NonCommercial-ShareAlik
 Para mais informações, consulte o arquivo [LICENSE](./LICENSE).
 """
 import re
+from nltk.tokenize import word_tokenize
 
 PROCESS_METHODS = (
     "filter_special_characters", "filter_spaces",
@@ -186,3 +187,7 @@ class TextUtils:
         words = txt.split()
         stemmed_words = [stemmer_pt.stemWord(word) for word in words]
         return " ".join(stemmed_words)
+
+    @staticmethod
+    def tokenize(txt: str) ->list[str]:
+        return word_tokenize(txt)
